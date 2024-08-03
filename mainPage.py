@@ -82,7 +82,7 @@ class HotelMangementSystem:
 if __name__ == "__main__":
     root = Tk()
     obj = HotelMangementSystem(root)
-    root.config(background="black")
+
     icon = PhotoImage(file=r"images/hotel.png")
     root.iconphoto(False, icon)
     root.mainloop()
