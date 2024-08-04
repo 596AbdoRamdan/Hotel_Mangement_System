@@ -1,5 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
+from room import RoomBooking
+from details import details_room
 class HotelMangementSystem:
     def __init__(self,root):
         self.root = root
@@ -47,11 +49,12 @@ class HotelMangementSystem:
         cust_btn.grid(row=0,column=0,pady=1)
 
         det_btn = Button(btn_frame,activeforeground="Gold", text="DETAIL", font=("times new roman", 14, "bold"), bg="black", fg="Gold",
-                          width=22, cursor="hand2",activebackground="black")
+                          width=22, cursor="hand2",activebackground="black",command=self.roomDetails)
         det_btn.grid(row=1, column=0, pady=1)
 
         rom_btn = Button(btn_frame, text="ROOM",activeforeground="Gold", font=("times new roman", 14, "bold"),activebackground="black", bg="black", fg="Gold",
-                          width=22, cursor="hand2")
+                          width=22, cursor="hand2"
+                         ,command=self.roombooking)
         rom_btn.grid(row=2, column=0, pady=1)
 
         logout_btn = Button(btn_frame, text="LOGOUT",activeforeground="Gold",activebackground="black", font=("times new roman", 14, "bold"), bg="black", fg="Gold",
@@ -77,6 +80,15 @@ class HotelMangementSystem:
         self.photoimg5 = ImageTk.PhotoImage(img5)
         lblimg3 = Label(main_frame, image=self.photoimg5, bd=4, relief=RIDGE)
         lblimg3.place(x=0, y=420, width=230, height=190)
+
+    #----------button Functions---------------------
+    def roombooking(self):
+        self.new_window = Toplevel(self.root)
+        self.app = RoomBooking(self.new_window)
+
+    def roomDetails(self):
+        self.new_window = Toplevel(self.root)
+        self.app = details_room(self.new_window)
 
 
 if __name__ == "__main__":
