@@ -26,7 +26,7 @@ Label(root, image=image_tk, bg='white').place(y=0, x=0)
 
 
 ##### frame
-frame = Frame(root, width=400, height=340, bg="")
+frame = Frame(root, width=375, height=320, bg="#aedea2")
 #frame = Frame(root, width=400, height=350, bg='#aedea2')
 frame.place(x=440, y=260)
 
@@ -41,6 +41,7 @@ def login():
 
 
 ######login
+
 heading = Label(frame, text='Log in', fg='white', bg='#aedea2', font=font)
 heading.place(x=150, y=20)
 
