@@ -2,7 +2,7 @@ from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk
 import random
-import mysql.connector
+
 from tkinter import messagebox
 
 class RoomBooking():
@@ -190,10 +190,10 @@ class RoomBooking():
     def fetchbtn(self):
         if self.var_contact.get() =="":
             messagebox.showerror("Error","Please enter your contact details",parent=self.root)
-        else:
-            conn=mysql.connector.connect(host="localhost",user="root",passwd="test@123",database="management")
-            mycursor=conn.cursor()
-            query=("")
+        # else:
+        #     conn=mysql.connector.connect(host="localhost",user="root",passwd="test@123",database="management")
+        #     mycursor=conn.cursor()
+        #     query=("")
 
 if __name__ == '__main__':
     root = Tk()
