@@ -65,19 +65,19 @@ class HotelMangementSystem:
         lblimg1.place(x=225, y=0, width=1310, height=590)
 
         #----------------------down images---------------------------------------------
-    '''''
+
         img4 = Image.open(r"images/Slide-2.jpg")
-        img4 = img4.resize((230, 210), Image.Resampling.LANCZOS)
+        img4 = img4.resize((230, 250), Image.Resampling.LANCZOS)
         self.photoimg4 = ImageTk.PhotoImage(img4)
         lblimg2 = Label(main_frame, image=self.photoimg4, bd=4, relief=RIDGE)
-        lblimg2.place(x=0, y=225, width=230, height=210)
+        lblimg2.place(x=0, y=225, width=230, height=250)
 
         img5 = Image.open(r"images/swimming.jpg")
         img5 = img5.resize((230, 190), Image.Resampling.LANCZOS)
         self.photoimg5 = ImageTk.PhotoImage(img5)
         lblimg3 = Label(main_frame, image=self.photoimg5, bd=4, relief=RIDGE)
         lblimg3.place(x=0, y=420, width=230, height=190)
-    '''''
+
 
 if __name__ == "__main__":
     root = Tk()
