@@ -48,14 +48,14 @@ class HotelMangementSystem:
                         ,activebackground="black",activeforeground="Gold",relief=RIDGE)
         cust_btn.grid(row=0,column=0,pady=1)
 
-        det_btn = Button(btn_frame,activeforeground="Gold", text="DETAIL", font=("times new roman", 14, "bold"), bg="black", fg="Gold",
+        det_btn = Button(btn_frame,activeforeground="Gold", text="DETAILS", font=("times new roman", 14, "bold"), bg="black", fg="Gold",
                           width=22, cursor="hand2",activebackground="black",command=self.roomDetails)
-        det_btn.grid(row=1, column=0, pady=1)
+        det_btn.grid(row=2, column=0, pady=1)
 
-        rom_btn = Button(btn_frame, text="ROOM",activeforeground="Gold", font=("times new roman", 14, "bold"),activebackground="black", bg="black", fg="Gold",
+        rom_btn = Button(btn_frame, text="ROOMS",activeforeground="Gold", font=("times new roman", 14, "bold"),activebackground="black", bg="black", fg="Gold",
                           width=22, cursor="hand2"
                          ,command=self.roombooking)
-        rom_btn.grid(row=2, column=0, pady=1)
+        rom_btn.grid(row=1, column=0, pady=1)
 
         logout_btn = Button(btn_frame, text="LOGOUT",activeforeground="Gold",activebackground="black", font=("times new roman", 14, "bold"), bg="black", fg="Gold",
                           width=22, cursor="hand2")
