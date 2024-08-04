@@ -1,147 +1,153 @@
 from tkinter import *
 from PIL import Image, ImageTk  # pip install pillow
 from tkinter import ttk
+import sqlite3
+from tkinter import messagebox
 
 
+
+# conn = sqlite3.connect('hotel.db')
+# cur = conn.cursor()
+# cur.execute('''
+#  CREATE TABLE IF NOT EXISTS customer (
+#  ref INTEGER PRIMARY KEY AUTOINCREMENT,
+# name TEXT NOT NULL,
+# gender TEXT NOT NULL,
+# post TEXT,
+# mobile TEXT NOT NULL,
+#                 email TEXT,
+#                 nationality TEXT,
+#                 idnumber TEXT,
+#                 address TEXT
+#             )
+#         ''')
+# conn.commit()
+# conn.close()
 class Cust_Win:
     def __init__(self,root):
         self.root = root
-        self.root.title("Hotel Mangement System")
+        self.root.title("Hotel Management System")
         self.root.geometry("1295x550+230+220")
 
         # ---------------------title--------------------
-
-        lbl_title = Label(self.root, text="ADD CUSTOMER DETAILS ", font=("times new roman", 18, "bold"), bg="black",
-                          fg="Gold", bd=4
-                          , relief=RIDGE)
+        lbl_title = Label(self.root, text="ADD CUSTOMER DETAILS ", font=("times new roman", 18, "bold"), bg="black", fg="Gold", bd=4, relief=RIDGE)
         lbl_title.place(x=0, y=0, width=1295, height=50)
 
-        # ----------------------logo-------------------
-
-        img2 = Image.open(r"images/grandHotel.jpg ")
-        img2 = img2.resize((100, 40), Image.Resampling.LANCZOS)
-        self.photoimg2 = ImageTk.PhotoImage(img2)
-        lblimg = Label(self.root, image=self.photoimg2, bd=0, relief=RIDGE)
-        lblimg.place(x=5, y=2, width=100, height=40)
+        # # ----------------------logo-------------------
+        # img2 = Image.open(r"images/grandHotel.jpg ")
+        # img2 = img2.resize((100, 40), Image.Resampling.LANCZOS)
+        # self.photoimg2 = ImageTk.PhotoImage(img2)
+        # lblimg = Label(self.root, image=self.photoimg2, bd=0, relief=RIDGE)
+        # lblimg.place(x=5, y=2, width=100, height=40)
 
         # ---------------------labelframe--------------
-        labelframeleft = LabelFrame(self.root, bd=2, relief=RIDGE, text="Customer Details", font=("arial", 12, "bold"),
-                                    padx=2)
+        labelframeleft = LabelFrame(self.root, bd=2, relief=RIDGE, text="Customer Details", font=("arial", 12, "bold"), padx=2)
         labelframeleft.place(x=5, y=50, width=425, height=490)
 
         # --------------------labels and entrys--------
         # custref
         lbl_cust_ref = Label(labelframeleft, text="Customer ref", font=("arial", 12, "bold"), padx=2, pady=6)
         lbl_cust_ref.grid(row=0, column=0, sticky=W)
-
-        enty_ref = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
-        enty_ref.grid(row=0, column=1)
+        self.enty_ref = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
+        self.enty_ref.grid(row=0, column=1)
 
         # customer name
         cname = Label(labelframeleft, font=("arial", 12, "bold"), text="Customer Name:", padx=2, pady=6)
         cname.grid(row=1, column=0, sticky=W)
-        txtcname = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
-        txtcname.grid(row=1, column=1)
+        self.txtcname = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
+        self.txtcname.grid(row=1, column=1)
 
         # gender combobox
         label_gender = Label(labelframeleft, font=("arial", 12, "bold"), text="Gender:", padx=2, pady=6)
-        label_gender.grid(row=3, column=0, sticky=W)
+        label_gender.grid(row=2, column=0, sticky=W)
+        self.combo_gender = ttk.Combobox(labelframeleft, font=("arial", 12, "bold"), width=27, state="readonly")
+        self.combo_gender["value"] = ("Male", "Female", "Other")
+        self.combo_gender.current(0)
+        self.combo_gender.grid(row=2, column=1)
 
-        combo_gender = ttk.Combobox(labelframeleft, font=("arial", 12, "bold"), width=27, state="readonly")
-        combo_gender["value"] = ("Male", "Female", "Other")
-        combo_gender.current(0)
-        combo_gender.grid(row=3, column=1)
+        # post code
+        lblPostCode = Label(labelframeleft, font=("arial", 12, "bold"), text="PostCode:", padx=2, pady=6)
+        lblPostCode.grid(row=3, column=0, sticky=W)
+        self.txtPostCode = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
+        self.txtPostCode.grid(row=3, column=1)
 
-        # postcode
-        lblPostcode = Label(labelframeleft, font=("arial", 12, "bold"), text="PostCode:", padx=2, pady=6)
-        lblPostcode.grid(row=4, column=0, sticky=W)
-        txtPostcode = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
-        txtPostcode.grid(row=4, column=1)
-
-        # mobilenumber
+        # mobile number
         lblMobile = Label(labelframeleft, font=("arial", 12, "bold"), text="Mobile:", padx=2, pady=6)
-        lblMobile.grid(row=5, column=0, sticky=W)
-        txtMobile = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
-        txtMobile.grid(row=5, column=1)
+        lblMobile.grid(row=4, column=0, sticky=W)
+        self.txtMobile = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
+        self.txtMobile.grid(row=4, column=1)
 
         # email
         lblEmail = Label(labelframeleft, font=("arial", 12, "bold"), text="Email:", padx=2, pady=6)
-        lblEmail.grid(row=6, column=0, sticky=W)
-        txtEmail = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
-        txtEmail.grid(row=6, column=1)
+        lblEmail.grid(row=5, column=0, sticky=W)
+        self.txtEmail = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
+        self.txtEmail.grid(row=5, column=1)
 
         # nationality
         lblNationality = Label(labelframeleft, font=("arial", 12, "bold"), text="Nationality:", padx=2, pady=6)
-        lblNationality.grid(row=7, column=0, sticky=W)
-
-        combo_Nationality = ttk.Combobox(labelframeleft, font=("arial", 12, "bold"), width=27, state="readonly")
-        combo_Nationality["value"] = ('Egyption','Foreign')
-        combo_Nationality.current(0)
-        combo_Nationality.grid(row=7, column=1)
-
+        lblNationality.grid(row=6, column=0, sticky=W)
+        self.txtNationality = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
+        self.txtNationality.grid(row=6, column=1)
 
         # id number
         lblIdNumber = Label(labelframeleft, font=("arial", 12, "bold"), text="Id Number:", padx=2, pady=6)
-        lblIdNumber.grid(row=9, column=0, sticky=W)
-        txtIdNumber = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
-        txtIdNumber.grid(row=9, column=1)
+        lblIdNumber.grid(row=7, column=0, sticky=W)
+        self.txtIdNumber = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
+        self.txtIdNumber.grid(row=7, column=1)
 
         # address
         lblAddress = Label(labelframeleft, font=("arial", 12, "bold"), text="Address:", padx=2, pady=6)
-        lblAddress.grid(row=10, column=0, sticky=W)
-        txtAddress = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
-        txtAddress.grid(row=10, column=1)
+        lblAddress.grid(row=8, column=0, sticky=W)
+        self.txtAddress = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
+        self.txtAddress.grid(row=8, column=1)
 
-        # -----------------------btns-------------------------------
+        # ---------------------buttons-----------------
         btn_frame = Frame(labelframeleft, bd=2, relief=RIDGE)
         btn_frame.place(x=0, y=400, width=412, height=40)
 
-        btnAdd = Button(btn_frame, text="Add", font=("arial", 11, "bold"), bg="black", fg="gold", width=10)
+        btnAdd = Button(btn_frame, text="Add", command=self.add_data, font=("arial", 11, "bold"), bg="black", fg="gold", width=9)
         btnAdd.grid(row=0, column=0, padx=1)
 
-        btnUpdata = Button(btn_frame, text="Update", font=("arial", 11, "bold"), bg="black", fg="gold", width=10)
-        btnUpdata.grid(row=0, column=1, padx=1)
+        btnUpdate = Button(btn_frame, text="Update", command=self.update_data, font=("arial", 11, "bold"), bg="black", fg="gold", width=9)
+        btnUpdate.grid(row=0, column=1, padx=1)
 
-        btnDelete = Button(btn_frame, text="Delete", font=("arial", 11, "bold"), bg="black", fg="gold", width=10)
+        btnDelete = Button(btn_frame, text="Delete", command=self.delete_data, font=("arial", 11, "bold"), bg="black", fg="gold", width=9)
         btnDelete.grid(row=0, column=2, padx=1)
 
-        btnReset = Button(btn_frame, text="Reset", font=("arial", 11, "bold"), bg="black", fg="gold", width=10)
+        btnReset = Button(btn_frame, text="Reset", command=self.reset_data, font=("arial", 11, "bold"), bg="black", fg="gold", width=9)
         btnReset.grid(row=0, column=3, padx=1)
 
-        # ----------------------tabel frame---------------------------
-
-        Table_Frame = LabelFrame(self.root, bd=2, relief=RIDGE, text="View Details And Search System",
-                                 font=("arial", 12, "bold"), padx=2)
+        # -------------------table frame----------------
+        Table_Frame = LabelFrame(self.root, bd=2, relief=RIDGE, text="View Details And Search System", font=("arial", 12, "bold"), padx=2)
         Table_Frame.place(x=435, y=50, width=860, height=490)
 
         lblSearchBy = Label(Table_Frame, font=("arial", 12, "bold"), text="Search By:", bg="red", fg="white")
         lblSearchBy.grid(row=0, column=0, sticky=W, padx=2)
 
-        combo_Search = ttk.Combobox(Table_Frame, font=("arial", 12, "bold"), width=27, state="readonly")
-        combo_Search["value"] = ("Mobile", "Ref")
-        combo_Search.current(0)
-        combo_Search.grid(row=0, column=1, padx=2)
+        self.search_var = StringVar()
+        self.search_var = ttk.Combobox(Table_Frame, textvariable=self.search_var, font=("arial", 12, "bold"), width=24, state="readonly")
+        self.search_var["value"] = ("Mobile", "Ref")
+        self.search_var.current(0)
+        self.search_var.grid(row=0, column=1, padx=2)
 
-        txtSearch = ttk.Entry(Table_Frame, width=24, font=("arial", 13, "bold"))
-        txtSearch.grid(row=0, column=2, padx=2)
+        self.txt_search = StringVar()
+        self.txtSearch = ttk.Entry(Table_Frame, textvariable=self.txt_search, width=24, font=("arial", 13, "bold"))
+        self.txtSearch.grid(row=0, column=2, padx=2)
 
-        btnSearch = Button(Table_Frame, text="Search", font=("arial", 11, "bold"), bg="black", fg="gold", width=10)
+        btnSearch = Button(Table_Frame, text="Search", command=self.search_data, font=("arial", 11, "bold"), bg="black", fg="gold", width=9)
         btnSearch.grid(row=0, column=3, padx=1)
 
-        btnShowAll = Button(Table_Frame, text="ShowAll", font=("arial", 11, "bold"), bg="black", fg="gold", width=10)
+        btnShowAll = Button(Table_Frame, text="Show All", command=self.fetch_data, font=("arial", 11, "bold"), bg="black", fg="gold", width=9)
         btnShowAll.grid(row=0, column=4, padx=1)
 
-        # ------------------------show data table-----------------
-
+        # ----------------------data table----------------------
         details_table = Frame(Table_Frame, bd=2, relief=RIDGE)
         details_table.place(x=0, y=50, width=860, height=350)
 
         scroll_x = ttk.Scrollbar(details_table, orient=HORIZONTAL)
         scroll_y = ttk.Scrollbar(details_table, orient=VERTICAL)
 
-        self.Cust_Details_Table = ttk.Treeview(details_table, columns=(
-        "ref", "name", "gender", "post", "mobile", "email", "nationality", "idnumber", "address"),
-                                               xscrollcommand=scroll_x.set, yscrollcommand=scroll_y.set)
+        self.Cust_Details_Table = ttk.Treeview(details_table, columns=("ref", "name", "gender", "post", "mobile", "email", "nationality", "idnumber", "address"), xscrollcommand=scroll_x.set, yscrollcommand=scroll_y.set)
 
         scroll_x.pack(side=BOTTOM, fill=X)
         scroll_y.pack(side=RIGHT, fill=Y)
@@ -172,12 +178,133 @@ class Cust_Win:
         self.Cust_Details_Table.column("address", width=100)
 
         self.Cust_Details_Table.pack(fill=BOTH, expand=1)
+        self.Cust_Details_Table.bind("<ButtonRelease-1>", self.get_cursor)
+        self.fetch_data()
 
+        self.create_table()
+
+    def create_table(self):
+        conn = sqlite3.connect('hotel.db')
+        cur = conn.cursor()
+        cur.execute('''CREATE TABLE IF NOT EXISTS customer (
+                        ref INTEGER PRIMARY KEY,
+                        name TEXT,
+                        gender TEXT,
+                        post TEXT,
+                        mobile TEXT,
+                        email TEXT,
+                        nationality TEXT,
+                        idnumber TEXT,
+                        address TEXT)''')
+        conn.commit()
+        conn.close()
+
+    def add_data(self):
+        if self.txtcname.get() == "":
+            messagebox.showerror("Error", "All fields are required")
+        else:
+            conn = sqlite3.connect('hotel.db')
+            cur = conn.cursor()
+            cur.execute("INSERT INTO customer VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (
+                self.enty_ref.get(),
+                self.txtcname.get(),
+                self.combo_gender.get(),
+                self.txtPostCode.get(),
+                self.txtMobile.get(),
+                self.txtEmail.get(),
+                self.txtNationality.get(),
+                self.txtIdNumber.get(),
+                self.txtAddress.get()
+            ))
+            conn.commit()
+            self.fetch_data()
+            conn.close()
+            messagebox.showinfo("Success", "Customer has been added")
+            self.reset_data()
+
+    def fetch_data(self):
+        conn = sqlite3.connect('hotel.db')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM customer")
+        rows = cur.fetchall()
+        if len(rows) != 0:
+            self.Cust_Details_Table.delete(*self.Cust_Details_Table.get_children())
+            for row in rows:
+                self.Cust_Details_Table.insert('', END, values=row)
+            conn.commit()
+        conn.close()
+
+    def get_cursor(self, event=""):
+        cursor_row = self.Cust_Details_Table.focus()
+        content = self.Cust_Details_Table.item(cursor_row)
+        row = content['values']
+        self.enty_ref.set(row[0])
+        self.txtcname.set(row[1])
+        self.combo_gender.set(row[2])
+        self.txtPostCode.set(row[3])
+        self.txtMobile.set(row[4])
+        self.txtEmail.set(row[5])
+        self.txtNationality.set(row[6])
+        self.txtIdNumber.set(row[7])
+        self.txtAddress.set(row[8])
+
+    def update_data(self):
+        if self.enty_ref.get() == "":
+            messagebox.showerror("Error", "Please select a record to update")
+        else:
+            conn = sqlite3.connect('hotel.db')
+            cur = conn.cursor()
+            cur.execute("UPDATE customer SET name=?, gender=?, post=?, mobile=?, email=?, nationality=?, idnumber=?, address=? WHERE ref=?", (
+                self.txtcname.get(),
+                self.combo_gender.get(),
+                self.txtPostCode.get(),
+                self.txtMobile.get(),
+                self.txtEmail.get(),
+                self.txtNationality.get(),
+                self.txtIdNumber.get(),
+                self.txtAddress.get(),
+                self.enty_ref.get()
+            ))
+            conn.commit()
+            self.fetch_data()
+            conn.close()
+            messagebox.showinfo("Success", "Customer has been updated")
+            self.reset_data()
+
+    def delete_data(self):
+        conn = sqlite3.connect('hotel.db')
+        cur = conn.cursor()
+        cur.execute("DELETE FROM customer WHERE ref=?", (self.enty_ref.get(),))
+        conn.commit()
+        conn.close()
+        self.fetch_data()
+        messagebox.showinfo("Success", "Customer has been deleted")
+        self.reset_data()
+
+    def reset_data(self):
+        self.enty_ref.delete(0, END)
+        self.txtcname.delete(0, END)
+        self.combo_gender.set("Male")
+        self.txtPostCode.delete(0, END)
+        self.txtMobile.delete(0, END)
+        self.txtEmail.delete(0, END)
+        self.txtNationality.delete(0, END)
+        self.txtIdNumber.delete(0, END)
+        self.txtAddress.delete(0, END)
+
+    def search_data(self):
+        conn = sqlite3.connect('hotel.db')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM customer WHERE " + str(self.search_var.get()) + " LIKE '%" + str(self.txt_search.get()) + "%'")
+        rows = cur.fetchall()
+        if len(rows) != 0:
+            self.Cust_Details_Table.delete(*self.Cust_Details_Table.get_children())
+            for row in rows:
+                self.Cust_Details_Table.insert('', END, values=row)
+            conn.commit()
+        conn.close()
 
 if __name__ == '__main__':
     root = Tk()
     obj = Cust_Win(root)
     root.mainloop()
-
-# ===================================================================
-# ==================================================================
