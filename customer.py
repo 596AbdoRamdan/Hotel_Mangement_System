@@ -221,6 +221,7 @@ class Cust_Win:
             conn.close()
             messagebox.showinfo("Success", "Customer has been added")
             self.reset_data()
+            self.root.focus_force()
 
     def fetch_data(self):
         conn = sqlite3.connect('hotel.db')
@@ -270,6 +271,7 @@ class Cust_Win:
             conn.close()
             messagebox.showinfo("Success", "Customer has been updated")
             self.reset_data()
+            self.root.focus_force()
 
     def delete_data(self):
         conn = sqlite3.connect('hotel.db')
@@ -280,6 +282,7 @@ class Cust_Win:
         self.fetch_data()
         messagebox.showinfo("Success", "Customer has been deleted")
         self.reset_data()
+        self.root.focus_force()
 
 
     def reset_data(self):
@@ -292,6 +295,8 @@ class Cust_Win:
         self.txtNationality.delete(0, END)
         self.txtIdNumber.delete(0, END)
         self.txtAddress.delete(0, END)
+        self.root.focus_force()
+
 
 
     def search_data(self):

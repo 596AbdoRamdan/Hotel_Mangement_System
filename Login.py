@@ -26,9 +26,9 @@ Label(root, image=image_tk, bg='white').place(y=0, x=0)
 
 
 ##### frame
-# frame = Frame(root, width=400, height=410, bg='#aedea2')
-frame = Frame(root, width=400, height=350, bg='#aedea2')
-frame.place(x=700, y=185)
+frame = Frame(root, width=400, height=340, bg="")
+#frame = Frame(root, width=400, height=350, bg='#aedea2')
+frame.place(x=440, y=260)
 
 
 ######functions
