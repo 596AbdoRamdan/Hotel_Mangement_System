@@ -281,6 +281,7 @@ class Cust_Win:
         messagebox.showinfo("Success", "Customer has been deleted")
         self.reset_data()
 
+
     def reset_data(self):
         self.enty_ref.delete(0, END)
         self.txtcname.delete(0, END)
@@ -291,6 +292,7 @@ class Cust_Win:
         self.txtNationality.delete(0, END)
         self.txtIdNumber.delete(0, END)
         self.txtAddress.delete(0, END)
+
 
     def search_data(self):
         conn = sqlite3.connect('hotel.db')
