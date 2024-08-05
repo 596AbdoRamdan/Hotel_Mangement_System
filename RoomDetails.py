@@ -9,11 +9,14 @@ from tkinter import messagebox
 class details_room:
     def __init__(self,root):
         self.root=root
-        self.root.title("Hospital Mangement System")
+        self.root.title("Hotel Mangement System")
         self.root.geometry('1295x550+230+220')
+        icon = PhotoImage(file=r"images/hotel.png")
+        root.iconphoto(False, icon)
+        root.resizable(False, False)
 
     #------------------title---------------
-        lbl_title=Label(self.root,text="RoomBooking Details",font=("times new roman",18,"bold"),fg="yellow",bg="black")
+        lbl_title=Label(self.root,text="ROOM DETAILS",font=("times new roman",18,"bold"),fg="yellow",bg="black")
         lbl_title.place(x=0,y=0,width=1295,height=50)
 
     #------------------logo-----------------
@@ -31,7 +34,8 @@ class details_room:
         lbl_floor=Label(labelframeleft,text="Floor",font=("Arial",12,"bold"),padx=2,pady=6)
         lbl_floor.grid(row=0,column=0,sticky=W,padx=20)
 
-        entry_floor=ttk.Entry(labelframeleft,font=("Arial",13,"bold"),width=20)
+        entry_floor=ttk.Combobox(labelframeleft,font=("Arial",13,"bold"),width=18)
+        entry_floor["value"] = ("1", "2", "3", "4", "5")
         entry_floor.grid(row=0,column=1,sticky=W)
     #Room num
         lbl_RoomNo = Label(labelframeleft, text="Room No", font=("Arial", 12, "bold"), padx=2, pady=6)

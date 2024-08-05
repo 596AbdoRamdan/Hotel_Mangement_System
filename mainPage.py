@@ -1,7 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
-from room import RoomBooking
-from details import details_room
+from RoomBookin import RoomBooking
+from RoomDetails import details_room
 from customer import Cust_Win
 
 class HotelMangementSystem:
@@ -9,6 +9,7 @@ class HotelMangementSystem:
         self.root = root
         self.root.title("Hotel Mangement System")
         self.root.geometry("1550x800+0+0")
+        root.resizable(False, False)
         # ---------------1st image------------------
         img1 = Image.open(r"images/reception.jpg")
         img1 = img1.resize((1550,140),Image.Resampling.LANCZOS)
@@ -51,13 +52,13 @@ class HotelMangementSystem:
         cust_btn.grid(row=0,column=0,pady=1)
 
         det_btn = Button(btn_frame,activeforeground="Gold", text="DETAILS", font=("times new roman", 14, "bold"), bg="black", fg="Gold",
-                          width=22, cursor="hand2",activebackground="black",command=self.roomDetails)
-        det_btn.grid(row=2, column=0, pady=1)
+                          width=22, cursor="hand2",activebackground="black",command=self.roombooking)
+        det_btn.grid(row=1, column=0, pady=1)
 
         rom_btn = Button(btn_frame, text="ROOMS",activeforeground="Gold", font=("times new roman", 14, "bold"),activebackground="black", bg="black", fg="Gold",
                           width=22, cursor="hand2"
-                         ,command=self.roombooking)
-        rom_btn.grid(row=1, column=0, pady=1)
+                         ,command=self.roomDetails)
+        rom_btn.grid(row=2, column=0, pady=1)
 
         logout_btn = Button(btn_frame, text="LOGOUT",activeforeground="Gold",activebackground="black", font=("times new roman", 14, "bold"), bg="black", fg="Gold",
                           width=22, cursor="hand2")

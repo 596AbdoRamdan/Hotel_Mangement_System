@@ -14,7 +14,7 @@ font = ('Microsoft YaHei UI Light', 23, 'bold')
 root = Tk()
 root.title('Login')
 
-root.geometry('1280x832')
+root.geometry("1550x800+0+0")
 root.configure(bg='#aedea2')
 root.resizable(False,False)
 

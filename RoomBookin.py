@@ -12,6 +12,10 @@ class RoomBooking():
         self.root = root
         self.root.geometry('1295x550+230+220')
         self.root.title('Room Booking')
+        root.resizable(False, False)
+
+        icon = PhotoImage(file=r"images/hotel.png")
+        root.iconphoto(False, icon)
 
         #------------variables-------
         self.var_contact = StringVar()
@@ -73,7 +77,7 @@ class RoomBooking():
         roomType.grid(row=3, column=0, sticky=W)
         combo_roomType = ttk.Combobox(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_roomtype,
                                       width=27)
-        combo_roomType["value"] = ("Single", "Double", "Laxary")
+        combo_roomType["value"] = ("Single", "Double", "Doublex")
         combo_roomType.grid(row=3, column=1)
 
         #Available_Room
@@ -249,4 +253,5 @@ class RoomBooking():
 if __name__ == '__main__':
     root = Tk()
     obj = RoomBooking(root)
+
     root.mainloop()

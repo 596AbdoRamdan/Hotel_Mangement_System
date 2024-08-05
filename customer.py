@@ -5,40 +5,18 @@ import sqlite3
 from tkinter import messagebox
 
 
-
-# conn = sqlite3.connect('hotel.db')
-# cur = conn.cursor()
-# cur.execute('''
-#  CREATE TABLE IF NOT EXISTS customer (
-#  ref INTEGER PRIMARY KEY AUTOINCREMENT,
-# name TEXT NOT NULL,
-# gender TEXT NOT NULL,
-# post TEXT,
-# mobile TEXT NOT NULL,
-#                 email TEXT,
-#                 nationality TEXT,
-#                 idnumber TEXT,
-#                 address TEXT
-#             )
-#         ''')
-# conn.commit()
-# conn.close()
 class Cust_Win:
     def __init__(self,root):
         self.root = root
         self.root.title("Hotel Management System")
         self.root.geometry("1295x550+230+220")
+        icon = PhotoImage(file=r"images/hotel.png")
+        root.iconphoto(False, icon)
+        root.resizable(False, False)
 
         # ---------------------title--------------------
-        lbl_title = Label(self.root, text="ADD CUSTOMER DETAILS ", font=("times new roman", 18, "bold"), bg="black", fg="Gold", bd=4, relief=RIDGE)
+        lbl_title = Label(self.root, text="CUSTOMER DETAILS ", font=("times new roman", 18, "bold"), bg="black", fg="Gold", bd=4, relief=RIDGE)
         lbl_title.place(x=0, y=0, width=1295, height=50)
-
-        # # ----------------------logo-------------------
-        # img2 = Image.open(r"images/grandHotel.jpg ")
-        # img2 = img2.resize((100, 40), Image.Resampling.LANCZOS)
-        # self.photoimg2 = ImageTk.PhotoImage(img2)
-        # lblimg = Label(self.root, image=self.photoimg2, bd=0, relief=RIDGE)
-        # lblimg.place(x=5, y=2, width=100, height=40)
 
         # ---------------------labelframe--------------
         labelframeleft = LabelFrame(self.root, bd=2, relief=RIDGE, text="Customer Details", font=("arial", 12, "bold"), padx=2)
@@ -336,4 +314,6 @@ class Cust_Win:
 if __name__ == '__main__':
     root = Tk()
     obj = Cust_Win(root)
+    icon = PhotoImage(file=r"images/hotel.png")
+    root.iconphoto(False, icon)
     root.mainloop()
