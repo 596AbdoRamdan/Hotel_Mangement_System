@@ -40,7 +40,6 @@ class Cust_Win:
         label_gender.grid(row=2, column=0, sticky=W)
         self.combo_gender = ttk.Combobox(labelframeleft, font=("arial", 12, "bold"), width=27, state="readonly")
         self.combo_gender["value"] = ("Male", "Female", "Other")
-        self.combo_gender.current(0)
         self.combo_gender.grid(row=2, column=1)
 
         # post code
@@ -64,7 +63,7 @@ class Cust_Win:
         # nationality
         lblNationality = Label(labelframeleft, font=("arial", 12, "bold"), text="Nationality:", padx=2, pady=6)
         lblNationality.grid(row=6, column=0, sticky=W)
-        self.txtNationality = ttk.Combobox(labelframeleft, font=("arial", 12, "bold"), width=27, state="readonly")
+        self.txtNationality = ttk.Combobox(labelframeleft, font=("arial", 12, "bold"), width=27)
         self.txtNationality["value"] = ("Egyptian","American", "British", "Canadian", "Australian", "Indian","other")
         self.txtNationality.grid(row=6, column=1)
 
@@ -288,7 +287,7 @@ class Cust_Win:
     def reset_data(self):
         self.enty_ref.delete(0, END)
         self.txtcname.delete(0, END)
-        self.combo_gender.set("Male")
+        self.combo_gender.set("")
         self.txtPostCode.delete(0, END)
         self.txtMobile.delete(0, END)
         self.txtEmail.delete(0, END)
@@ -302,14 +301,28 @@ class Cust_Win:
     def search_data(self):
         conn = sqlite3.connect('hotel.db')
         cur = conn.cursor()
-        cur.execute("SELECT * FROM customer WHERE " + str(self.search_var.get()) + " LIKE '%" + str(self.txt_search.get()) + "%'")
-        rows = cur.fetchall()
-        if len(rows) != 0:
-            self.Cust_Details_Table.delete(*self.Cust_Details_Table.get_children())
-            for row in rows:
-                self.Cust_Details_Table.insert('', END, values=row)
-            conn.commit()
+
+        search_by = self.search_var.get()
+        search_text = self.txt_search.get()
+
+        if search_by and search_text:
+            query = f"SELECT * FROM customer WHERE {search_by} LIKE ?"
+            cur.execute(query, ('%' + search_text + '%',))
+            rows = cur.fetchall()
+            if len(rows) == 0:
+                # Clear table and show an error message
+                 self.Cust_Details_Table.delete(*self.Cust_Details_Table.get_children())
+                 messagebox.showerror("No Results", f"No records found for {search_by} '{search_text}'.")
+            else:
+                # Update table with results
+                self.Cust_Details_Table.delete(*self.Cust_Details_Table.get_children())
+                for row in rows:
+                    self.Cust_Details_Table.insert('', END, values=row)
+        else:
+                messagebox.showwarning("Input Error", "Please enter search criteria.")
+
         conn.close()
+
 
 if __name__ == '__main__':
     root = Tk()

@@ -235,6 +235,7 @@ class RoomBooking:
                 messagebox.showinfo("Success", "Room added successfully")
             except Exception as e:
                 messagebox.showerror("Error", f"Error due to: {str(e)}")
+        self.root.focus_force()
 
     def fetch_data(self):
         conn = sqlite3.connect('hotel.db')
@@ -290,6 +291,7 @@ class RoomBooking:
                 messagebox.showinfo("Success", "Room updated successfully")
             except Exception as e:
                 messagebox.showerror("Error", f"Error due to: {str(e)}")
+        self.root.focus_force()
 
     def delete_room(self):
         if self.var_contact.get() == "":
@@ -307,6 +309,7 @@ class RoomBooking:
                 messagebox.showerror("Database Error", f"Error deleting room: {e}")
             except Exception as e:
                 messagebox.showerror("Error", f"Unexpected error: {e}")
+        self.root.focus_force()
 
     def calculate_total(self):
         try:
@@ -391,6 +394,7 @@ class RoomBooking:
                     self.room_table.insert('', END, values=row)
         else:
             messagebox.showwarning("Input Error", "Please enter search criteria.")
+
 
         conn.close()
 
