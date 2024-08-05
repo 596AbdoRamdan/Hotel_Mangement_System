@@ -35,7 +35,7 @@ root.resizable(False,False)
 
 
 
-img_original = Image.open("hotel2.jpg")
+img_original = Image.open("Login_Icon.jpg")
 new_image = img_original.resize((1550, 800))
 new_image.save('hotel2.jpg')
 image_tk = ImageTk.PhotoImage(new_image)
