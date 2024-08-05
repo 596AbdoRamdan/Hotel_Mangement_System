@@ -20,7 +20,7 @@ root.resizable(False,False)
 
 
 
-img_original = Image.open("hotel2.png")
+img_original = Image.open("hotel2.jpg")
 image_tk = ImageTk.PhotoImage(img_original)
 Label(root, image=image_tk, bg='white').place(y=0, x=0)
 
