@@ -133,23 +133,28 @@ class RoomBooking:
         # tableFrame.place(x=435, y=50, width=860, height=490)
 
         tableFrame.place(x=435, y=280, width=860, height=260)
-        lbl_search = Label(tableFrame, font=("arial", 12, "bold"), text="Search By: ", bg="red", fg="white")
-        lbl_search.grid(row=0, column=0, padx=2, sticky=W)
-        self.serch_var = StringVar()
-        combo_serach = ttk.Combobox(tableFrame, textvariable=self.serch_var, font=("arial", 12, "bold")
-                                    , state="readonly", width=24)
-        combo_serach["value"] = ("contact", "Room")
-        combo_serach.current(0)
-        combo_serach.grid(row=0, column=1, padx=2)
-        self.txt_search = StringVar()
-        txtSerch = Entry(tableFrame, textvariable=self.txt_search, font=("arial", 13, "bold"), width=24)
-        txtSerch.grid(row=0, column=2, padx=2)
 
-        btnsearch = Button(tableFrame, text="Search", font=("arial", 11, "bold"), bg="black", fg="Gold", width=10)
+        lblSearchBy = Label(tableFrame, font=("arial", 12, "bold"), text="Search By:", bg="red", fg="white")
+        lblSearchBy.grid(row=0, column=0, sticky=W, padx=2)
+
+        self.search_var = StringVar()
+        self.search_var = ttk.Combobox(tableFrame, textvariable=self.search_var, font=("arial", 12, "bold"), width=24,
+                                       state="readonly")
+        self.search_var["value"] = ("contact", "roomtype")
+        self.search_var.current(0)
+        self.search_var.grid(row=0, column=1, padx=2)
+
+        self.txt_search = StringVar()
+        self.txtSearch = ttk.Entry(tableFrame, textvariable=self.txt_search, width=24, font=("arial", 13, "bold"))
+        self.txtSearch.grid(row=0, column=2, padx=2)
+        btnsearch = Button(tableFrame, text="Search",command=self.search_data, font=("arial", 11, "bold"), bg="black", fg="Gold", width=10)
         btnsearch.grid(row=0, column=3, padx=1)
 
-        btnShowAll = Button(tableFrame, text="Show All", font=("arial", 11, "bold"), bg="black", fg="Gold", width=10)
+        btnShowAll = Button(tableFrame, text="Show All",command=self.show_all_data, font=("arial", 11, "bold"), bg="black", fg="Gold", width=10)
         btnShowAll.grid(row=0, column=4, padx=1)
+
+        # -----------data table-------------
+
         details_table = Frame(tableFrame, bd=2, relief=RIDGE)
         details_table.place(x=0, y=50, width=860, height=180)
         scrollx = ttk.Scrollbar(details_table, orient=HORIZONTAL)
@@ -187,7 +192,7 @@ class RoomBooking:
         cur = conn.cursor()
         cur.execute("""
             CREATE TABLE IF NOT EXISTS room (
-                contact TEXT PRIMARY KEY,
+                contact INTEGER PRIMARY KEY,
                 checkin TEXT,
                 checkout TEXT,
                 roomtype TEXT,
@@ -359,6 +364,43 @@ class RoomBooking:
                 messagebox.showerror("Database Error", f"An error occurred: {e}", parent=self.root)
             except Exception as e:
                 messagebox.showerror("Error", f"An unexpected error occurred: {e}", parent=self.root)
+
+    def search_data(self):
+        conn = sqlite3.connect('hotel.db')
+        cur = conn.cursor()
+
+        search_by = self.search_var.get()
+        search_text = self.txt_search.get()
+
+        if search_by and search_text:
+            query = f"SELECT * FROM room WHERE {search_by} LIKE ?"
+            cur.execute(query, ('%' + search_text + '%',))
+            rows = cur.fetchall()
+
+            if len(rows) == 0:
+                # Clear table and show an error message
+                self.room_table.delete(*self.room_table.get_children())
+                messagebox.showerror("No Results", f"No records found for {search_by} '{search_text}'.")
+            else:
+                # Update table with results
+                self.room_table.delete(*self.room_table.get_children())
+                for row in rows:
+                    self.room_table.insert('', END, values=row)
+        else:
+            messagebox.showwarning("Input Error", "Please enter search criteria.")
+
+        conn.close()
+
+    def show_all_data(self):
+        conn = sqlite3.connect('hotel.db')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM room")
+        rows = cur.fetchall()
+        if rows:
+            self.room_table.delete(*self.room_table.get_children())
+            for row in rows:
+                self.room_table.insert('', END, values=row)
+        conn.close()
 
 
 if __name__ == "__main__":
