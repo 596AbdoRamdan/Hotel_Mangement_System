@@ -2,12 +2,10 @@ from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk
 import sqlite3
-import random
-
 from tkinter import messagebox
 
 
-class RoomBooking():
+class RoomBooking:
     def __init__(self, root):
         self.root = root
         self.root.geometry('1295x550+230+220')
@@ -17,7 +15,7 @@ class RoomBooking():
         icon = PhotoImage(file=r"images/hotel.png")
         root.iconphoto(False, icon)
 
-        #------------variables-------
+        # Variables
         self.var_contact = StringVar()
         self.var_checkin = StringVar()
         self.var_checkout = StringVar()
@@ -29,115 +27,100 @@ class RoomBooking():
         self.var_actualtotal = StringVar()
         self.var_total = StringVar()
 
-        #------------title--------------------
-
-        lbl1_title = Label(self.root, text='ROOMBOOKING DETAILS', font=('times new roman', 18, "bold"), bg='black',
+        # Title
+        lbl1_title = Label(self.root, text='ROOM BOOKING DETAILS', font=('times new roman', 18, "bold"), bg='black',
                            fg='gold')
         lbl1_title.place(x=0, y=0, width=1295, height=50)
 
-        #--------------logo-------------------
-
-        img2 = Image.open(r"images/grandHotel.jpg ")
+        # Logo
+        img2 = Image.open(r"images/grandHotel.jpg")
         img2 = img2.resize((100, 40), Image.Resampling.LANCZOS)
         self.photoimg2 = ImageTk.PhotoImage(img2)
         lblimg = Label(self.root, image=self.photoimg2, bd=0, relief=RIDGE)
         lblimg.place(x=5, y=2, width=100, height=40)
 
-        #---------------label frame--------------
-
-        labelFrameleft = LabelFrame(self.root, bd=2, relief=RIDGE, text='roombooking Details',
-                                    font=('arial', 12, "bold")
-                                    , padx=2, pady=2)
+        # Label Frame
+        labelFrameleft = LabelFrame(self.root, bd=2, relief=RIDGE, text='Room Booking Details',
+                                    font=('arial', 12, "bold"), padx=2, pady=2)
         labelFrameleft.place(x=5, y=50, width=425, height=490)
-        #------------labels and entries----------
-        #customer contact
+
+        # Labels and Entries
         lbl1_contact = Label(labelFrameleft, text="Customer Contact", font=('arial', 12, "bold"), padx=2, pady=6)
         lbl1_contact.grid(row=0, column=0, sticky=W)
-        entry_contact = ttk.Entry(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_contact, width=20)
+        entry_contact = Entry(labelFrameleft, textvariable=self.var_contact, font=('arial', 13, "bold"), width=20)
         entry_contact.grid(row=0, column=1, sticky=W)
-        #-------------fetch Data Button---------------
+        # -------------fetch Data Button---------------
         btnAdd = Button(labelFrameleft, text="Fetch Data", command=self.fetchbtn, font=("Arial", 8, "bold"), bg='black',
                         fg='gold', width=8, height=1)
         btnAdd.place(x=340, y=4)
 
-        #check_in_Date
-        check_in_date = Label(labelFrameleft, text="Check_in Date", font=('arial', 12, "bold"), padx=2, pady=6)
-        check_in_date.grid(row=1, column=0, sticky=W)
-        check_in_date = ttk.Entry(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_checkin, width=29)
-        check_in_date.grid(row=1, column=1)
+        lbl_checkin = Label(labelFrameleft, text="Check-in Date", font=('arial', 12, "bold"), padx=2, pady=6)
+        lbl_checkin.grid(row=1, column=0, sticky=W)
+        entry_checkin = Entry(labelFrameleft, textvariable=self.var_checkin, font=('arial', 13, "bold"), width=20)
+        entry_checkin.grid(row=1, column=1, sticky=W)
 
-        #check_out_Date
-        check_out_date = Label(labelFrameleft, text="Check_out Date", font=('arial', 12, "bold"), padx=2, pady=6)
-        check_out_date.grid(row=2, column=0, sticky=W)
-        check_out_date = ttk.Entry(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_checkin, width=29)
-        check_out_date.grid(row=2, column=1)
+        lbl_checkout = Label(labelFrameleft, text="Check-out Date", font=('arial', 12, "bold"), padx=2, pady=6)
+        lbl_checkout.grid(row=2, column=0, sticky=W)
+        entry_checkout = Entry(labelFrameleft, textvariable=self.var_checkout, font=('arial', 13, "bold"), width=20)
+        entry_checkout.grid(row=2, column=1, sticky=W)
 
-        #Room_Type
+        # Room_Type
         roomType = Label(labelFrameleft, text="Room Type", font=('arial', 12, "bold"), padx=2, pady=6)
         roomType.grid(row=3, column=0, sticky=W)
         combo_roomType = ttk.Combobox(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_roomtype,
-                                      width=27)
+                                      width=18)
         combo_roomType["value"] = ("Single", "Double", "Doublex")
         combo_roomType.grid(row=3, column=1)
 
-        #Available_Room
-        Available_Room = Label(labelFrameleft, text="Available_Room", font=('arial', 12, "bold"), padx=2, pady=6)
-        Available_Room.grid(row=4, column=0, sticky=W)
-        Available_Room = ttk.Entry(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_roomvaliable,
-                                   width=29)
-        Available_Room.grid(row=4, column=1)
+        lbl_roomavailable = Label(labelFrameleft, text="Room Available", font=('arial', 12, "bold"), padx=2, pady=6)
+        lbl_roomavailable.grid(row=4, column=0, sticky=W)
+        entry_roomavailable = Entry(labelFrameleft, textvariable=self.var_roomvaliable, font=('arial', 13, "bold"),
+                                    width=20)
+        entry_roomavailable.grid(row=4, column=1, sticky=W)
 
-        #Meal
-        Meal = Label(labelFrameleft, text="meal", font=('arial', 12, "bold"), padx=2, pady=6)
-        Meal.grid(row=5, column=0, sticky=W)
-        Meal = ttk.Entry(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_meal, width=29)
-        Meal.grid(row=5, column=1)
+        lbl_meal = Label(labelFrameleft, text="Meal", font=('arial', 12, "bold"), padx=2, pady=6)
+        lbl_meal.grid(row=5, column=0, sticky=W)
+        entry_meal = Entry(labelFrameleft, textvariable=self.var_meal, font=('arial', 13, "bold"), width=20)
+        entry_meal.grid(row=5, column=1, sticky=W)
 
-        #No of Days
-        Days = Label(labelFrameleft, text="No Of Days", font=('arial', 12, "bold"), padx=2, pady=6)
-        Days.grid(row=6, column=0, sticky=W)
-        Days = ttk.Entry(labelFrameleft, font=('arial', 13, "bold"), width=29, textvariable=self.var_no_of_days)
-        Days.grid(row=6, column=1)
+        lbl_no_of_days = Label(labelFrameleft, text="No. of Days", font=('arial', 12, "bold"), padx=2, pady=6)
+        lbl_no_of_days.grid(row=6, column=0, sticky=W)
+        entry_no_of_days = Entry(labelFrameleft, textvariable=self.var_no_of_days, font=('arial', 13, "bold"), width=20)
+        entry_no_of_days.grid(row=6, column=1, sticky=W)
 
-        #Paid_Tax
-        Paid_Tax = Label(labelFrameleft, text="Paid Tax", font=('arial', 12, "bold"), padx=2, pady=6)
-        Paid_Tax.grid(row=7, column=0, sticky=W)
-        Paid_Tax = ttk.Entry(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var__paidtax, width=29)
-        Paid_Tax.grid(row=7, column=1)
+        lbl_paidtax = Label(labelFrameleft, text="Paid Tax", font=('arial', 12, "bold"), padx=2, pady=6)
+        lbl_paidtax.grid(row=7, column=0, sticky=W)
+        entry_paidtax = Entry(labelFrameleft, textvariable=self.var__paidtax, font=('arial', 13, "bold"), width=20)
+        entry_paidtax.grid(row=7, column=1, sticky=W)
 
-        #sub_total
-        sub_total = Label(labelFrameleft, text="Sub Total", font=('arial', 12, "bold"), padx=2, pady=6)
-        sub_total.grid(row=8, column=0, sticky=W)
-        sub_total = ttk.Entry(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_actualtotal, width=29)
-        sub_total.grid(row=8, column=1)
+        lbl_actualtotal = Label(labelFrameleft, text="Sub Total", font=('arial', 12, "bold"), padx=2, pady=6)
+        lbl_actualtotal.grid(row=8, column=0, sticky=W)
+        entry_actualtotal = Entry(labelFrameleft, textvariable=self.var_actualtotal, font=('arial', 13, "bold"),
+                                  width=20)
+        entry_actualtotal.grid(row=8, column=1, sticky=W)
 
-        #Total_Cost
-        Total_Cost = Label(labelFrameleft, text="Total Cost", font=('arial', 12, "bold"), padx=2, pady=6)
-        Total_Cost.grid(row=9, column=0, sticky=W)
-        Total_Cost = ttk.Entry(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_total, width=29)
-        Total_Cost.grid(row=9, column=1)
+        lbl_total = Label(labelFrameleft, text="Total Cost", font=('arial', 12, "bold"), padx=2, pady=6)
+        lbl_total.grid(row=9, column=0, sticky=W)
+        entry_total = Entry(labelFrameleft, textvariable=self.var_total, font=('arial', 13, "bold"), width=20)
+        entry_total.grid(row=9, column=1, sticky=W)
 
-        #-----------------Bill Button------------------
-        bill_btn = Button(labelFrameleft, text="Bill", font=("Arial", 11, "bold"), bg='black', fg='gold', width=10)
-        bill_btn.grid(row=10, column=0, padx=1, sticky=W)
+        # Buttons
+        btnAdd = Button(labelFrameleft, text="Add", command=self.add_room, font=('arial', 11, 'bold'), bg='black',
+                        fg='gold', width=9)
+        btnAdd.grid(row=10, column=0, pady=10)
 
-        #------------------btns--------------
-        btn_frame = Frame(labelFrameleft, bd=2, relief=RIDGE)
-        btn_frame.place(x=0, y=400, width=412, height=40)
+        btnUpdate = Button(labelFrameleft, text="Update", command=self.update_room, font=('arial', 11, 'bold'),
+                           bg='black', fg='gold', width=9)
+        btnUpdate.grid(row=10, column=1, pady=10)
 
-        btn_Add = Button(btn_frame, text="Add", font=("Arial", 11, "bold"), bg='black', fg='gold', width=10)
-        btn_Add.grid(row=0, column=0, padx=1)
+        btnDelete = Button(labelFrameleft, text="Delete", command=self.delete_room, font=('arial', 11, 'bold'),
+                           bg='black', fg='gold', width=9)
+        btnDelete.grid(row=11, column=0, pady=10)
 
-        btn_delete = Button(btn_frame, text="Delete", font=("Arial", 11, "bold"), bg='black', fg='gold', width=10)
-        btn_delete.grid(row=0, column=1, padx=1)
-
-        btn_update = Button(btn_frame, text="Update", font=("Arial", 11, "bold"), bg='black', fg='gold', width=10)
-        btn_update.grid(row=0, column=2, padx=1)
-
-        btn_reset = Button(btn_frame, text="Reset", font=("Arial", 11, "bold"), bg='black', fg='gold', width=10)
-        btn_reset.grid(row=0, column=3, padx=1)
-
-        #---------------right side image---------------
+        btnBill = Button(labelFrameleft, text="Bill", command=self.calculate_total, font=('arial', 11, 'bold'),
+                         bg='black', fg='gold', width=9)
+        btnBill.grid(row=11, column=1, pady=10)
+        # ---------------right side image---------------
 
         img3 = Image.open(r"images/room.jpeg ")
         img3 = img3.resize((520, 200), Image.Resampling.LANCZOS)
@@ -145,35 +128,34 @@ class RoomBooking():
         lblimg = Label(self.root, image=self.photoimg3, bd=0, relief=RIDGE)
         lblimg.place(x=760, y=55, width=520, height=200)
 
-        #-----------tabel frame search system----------------
-        Table_frame = LabelFrame(self.root, bd=2, relief=RIDGE, text="View Details And Search System"
-                                 , font=('arial', 12, "bold"))
-        Table_frame.place(x=435, y=280, width=860, height=260)
-        lbl_search = Label(Table_frame, font=("arial", 12, "bold"), text="Search By: ", bg="red", fg="white")
+        # Table Frame
+        tableFrame = Frame(self.root, bd=2, relief=RIDGE)
+        # tableFrame.place(x=435, y=50, width=860, height=490)
+
+        tableFrame.place(x=435, y=280, width=860, height=260)
+        lbl_search = Label(tableFrame, font=("arial", 12, "bold"), text="Search By: ", bg="red", fg="white")
         lbl_search.grid(row=0, column=0, padx=2, sticky=W)
         self.serch_var = StringVar()
-        combo_serach = ttk.Combobox(Table_frame, textvariable=self.serch_var, font=("arial", 12, "bold")
+        combo_serach = ttk.Combobox(tableFrame, textvariable=self.serch_var, font=("arial", 12, "bold")
                                     , state="readonly", width=24)
         combo_serach["value"] = ("contact", "Room")
         combo_serach.current(0)
         combo_serach.grid(row=0, column=1, padx=2)
         self.txt_search = StringVar()
-        txtSerch = Entry(Table_frame, textvariable=self.txt_search, font=("arial", 13, "bold"), width=24)
+        txtSerch = Entry(tableFrame, textvariable=self.txt_search, font=("arial", 13, "bold"), width=24)
         txtSerch.grid(row=0, column=2, padx=2)
 
-        btnsearch = Button(Table_frame, text="Search", font=("arial", 11, "bold"), bg="black", fg="Gold", width=10)
+        btnsearch = Button(tableFrame, text="Search", font=("arial", 11, "bold"), bg="black", fg="Gold", width=10)
         btnsearch.grid(row=0, column=3, padx=1)
 
-        btnShowAll = Button(Table_frame, text="Show All", font=("arial", 11, "bold"), bg="black", fg="Gold", width=10)
+        btnShowAll = Button(tableFrame, text="Show All", font=("arial", 11, "bold"), bg="black", fg="Gold", width=10)
         btnShowAll.grid(row=0, column=4, padx=1)
-        #--------------------show Data Table-------------------------------
-        details_table = Frame(Table_frame, bd=2, relief=RIDGE)
+        details_table = Frame(tableFrame, bd=2, relief=RIDGE)
         details_table.place(x=0, y=50, width=860, height=180)
-
         scrollx = ttk.Scrollbar(details_table, orient=HORIZONTAL)
         scrolly = ttk.Scrollbar(details_table, orient=VERTICAL)
         self.room_table = ttk.Treeview(details_table, columns=(
-        "contact", "checkin", "checkout", "roomtype", "roomvaliable", "meal", "no of days")
+            "contact", "checkin", "checkout", "roomtype", "roomvaliable", "meal", "no of days")
                                        , xscrollcommand=scrollx.set, yscrollcommand=scrolly.set)
         scrollx.config(command=self.room_table.xview)
         scrolly.config(command=self.room_table.yview)
@@ -195,9 +177,138 @@ class RoomBooking():
         self.room_table.column("meal", width=100)
         self.room_table.column("no of days", width=100)
         self.room_table.pack(fill=BOTH, expand=1)
+        self.room_table.bind("<ButtonRelease-1>", self.get_cursor)
 
-    # def add_data(self):
-    #     if self
+        self.create_room_table()  # Create the room table when the application starts
+        self.fetch_data()
+
+    def create_room_table(self):
+        conn = sqlite3.connect("hotel.db")
+        cur = conn.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS room (
+                contact TEXT PRIMARY KEY,
+                checkin TEXT,
+                checkout TEXT,
+                roomtype TEXT,
+                roomavailable TEXT,
+                meal TEXT,
+                no_of_days INTEGER,
+                paidtax REAL,
+                actualtotal REAL,
+                total REAL
+            )
+        """)
+        conn.commit()
+        conn.close()
+
+    def add_room(self):
+        if self.var_contact.get() == "" or self.var_checkin.get() == "":
+            messagebox.showerror("Error", "All fields are required")
+        else:
+            try:
+                conn = sqlite3.connect("hotel.db")
+                cur = conn.cursor()
+                cur.execute(
+                    "INSERT INTO room (contact, checkin, checkout, roomtype, roomavailable, meal, no_of_days, paidtax, actualtotal, total) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (
+                        self.var_contact.get(),
+                        self.var_checkin.get(),
+                        self.var_checkout.get(),
+                        self.var_roomtype.get(),
+                        self.var_roomvaliable.get(),
+                        self.var_meal.get(),
+                        self.var_no_of_days.get(),
+                        self.var__paidtax.get(),
+                        self.var_actualtotal.get(),
+                        self.var_total.get()
+                    ))
+                conn.commit()
+                self.fetch_data()
+                conn.close()
+                messagebox.showinfo("Success", "Room added successfully")
+            except Exception as e:
+                messagebox.showerror("Error", f"Error due to: {str(e)}")
+
+    def fetch_data(self):
+        conn = sqlite3.connect("hotel.db")
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM room")
+        rows = cur.fetchall()
+        if len(rows) != 0:
+            self.room_table.delete(*self.room_table.get_children())
+            for row in rows:
+                self.room_table.insert('', END, values=row)
+            conn.commit()
+        conn.close()
+
+    def get_cursor(self, event=""):
+        cursor_row = self.room_table.focus()
+        content = self.room_table.item(cursor_row)
+        row = content['values']
+        self.var_contact.set(row[0])
+        self.var_checkin.set(row[1])
+        self.var_checkout.set(row[2])
+        self.var_roomtype.set(row[3])
+        self.var_roomvaliable.set(row[4])
+        self.var_meal.set(row[5])
+        self.var_no_of_days.set(row[6])
+        self.var__paidtax.set(row[7])
+        self.var_actualtotal.set(row[8])
+        self.var_total.set(row[9])
+
+    def update_room(self):
+        if self.var_contact.get() == "":
+            messagebox.showerror("Error", "Please select a room to update")
+        else:
+            try:
+                conn = sqlite3.connect("hotel.db")
+                cur = conn.cursor()
+                cur.execute(
+                    "UPDATE room SET checkin=?, checkout=?, roomtype=?, roomavailable=?, meal=?, no_of_days=?, paidtax=?, actualtotal=?, total=? WHERE contact=?",
+                    (
+                        self.var_checkin.get(),
+                        self.var_checkout.get(),
+                        self.var_roomtype.get(),
+                        self.var_roomvaliable.get(),
+                        self.var_meal.get(),
+                        self.var_no_of_days.get(),
+                        self.var__paidtax.get(),
+                        self.var_actualtotal.get(),
+                        self.var_total.get(),
+                        self.var_contact.get()
+                    ))
+                conn.commit()
+                self.fetch_data()
+                conn.close()
+                messagebox.showinfo("Success", "Room updated successfully")
+            except Exception as e:
+                messagebox.showerror("Error", f"Error due to: {str(e)}")
+
+    def delete_room(self):
+        if self.var_contact.get() == "":
+            messagebox.showerror("Error", "Please select a room to delete")
+        else:
+            try:
+                conn = sqlite3.connect("hotel.db")
+                cur = conn.cursor()
+                cur.execute("DELETE FROM room WHERE contact=?", (self.var_contact.get(),))
+                conn.commit()
+                self.fetch_data()
+                conn.close()
+                messagebox.showinfo("Success", "Room deleted successfully")
+            except Exception as e:
+                messagebox.showerror("Error", f"Error due to: {str(e)}")
+
+    def calculate_total(self):
+        try:
+            days = int(self.var_no_of_days.get())
+            subtotal = float(self.var_actualtotal.get())
+            tax = float(self.var__paidtax.get())
+            total = days * (subtotal + tax)
+            self.var_total.set(total)
+        except Exception as e:
+            messagebox.showerror("Error", f"Error in calculating total: {str(e)}")
     def fetchbtn(self):
         if self.var_contact.get() == "":
             messagebox.showerror("Error", "Please enter your contact number!", parent=self.root)
@@ -250,8 +361,7 @@ class RoomBooking():
                 messagebox.showerror("Error", f"An unexpected error occurred: {e}", parent=self.root)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     root = Tk()
     obj = RoomBooking(root)
-
     root.mainloop()
