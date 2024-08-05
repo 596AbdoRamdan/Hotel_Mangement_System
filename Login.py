@@ -10,6 +10,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from PIL import Image, ImageTk
 import sqlite3
+from mainPage import HotelMangementSystem
 db = sqlite3.connect('hotel.db')
 cr = db.cursor()
 #create the tables and fields
@@ -19,7 +20,7 @@ cr.execute("CREATE TABLE if not exists users (user_id INTEGER, name TEXT, pass p
 cr.execute("insert into users (user_id , name ,pass) values(1, 'Yomna', 'Yo123')")
 cr.execute("insert into users (user_id , name ,pass) values(2, 'Yasmine', 'Ya456')")
 cr.execute("insert into users (user_id , name ,pass) values(3, 'Ramadan', 'Ra789')")
-
+cr.execute("insert into users (user_id , name ,pass) values(4, 'Bebo', 'Be3094')")
 #save data that we add
 db.commit()
 #close database
@@ -54,6 +55,13 @@ def login():
 
     if user != "admin" or passw != "admin":
         messagebox.showerror("Error", "Invalid username or password.")
+    else :
+        # root.destroy()
+        # rt = Tk()
+        # rt.geometry('0x0')
+        new_window=Toplevel(root)
+        app = HotelMangementSystem(new_window)
+
 
 
 ######login
