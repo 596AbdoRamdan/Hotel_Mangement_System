@@ -266,32 +266,31 @@ class RoomBooking:
 
     def update_room(self):
         if self.var_contact.get() == "":
-            messagebox.showerror("Error", "Please select a room to update")
+            messagebox.showerror("Error", "Please select a record to update")
         else:
-            try:
-                conn = sqlite3.connect("hotel.db")
-                cur = conn.cursor()
-                cur.execute(
-                    "UPDATE room SET checkin=?, checkout=?, roomtype=?, roomavailable=?, meal=?, no_of_days=?, paidtax=?, actualtotal=?, total=? WHERE contact=?",
-                    (
-                        self.var_checkin.get(),
-                        self.var_checkout.get(),
-                        self.var_roomtype.get(),
-                        self.var_roomvaliable.get(),
-                        self.var_meal.get(),
-                        self.var_no_of_days.get(),
-                        self.var__paidtax.get(),
-                        self.var_actualtotal.get(),
-                        self.var_total.get(),
-                        self.var_contact.get()
-                    ))
-                conn.commit()
-                self.fetch_data()
-                conn.close()
-                messagebox.showinfo("Success", "Room updated successfully")
-            except Exception as e:
-                messagebox.showerror("Error", f"Error due to: {str(e)}")
-        self.root.focus_force()
+            conn = sqlite3.connect('hotel.db')
+            cur = conn.cursor()
+            cur.execute(
+                "UPDATE room SET checkin=?, checkout=?, roomtype=?, roomavailable=?, meal=?, no_of_days=?, paidtax=?, actualtotal=?, total=? WHERE contact=?",
+                (
+                    self.var_checkin.get(),
+                    self.var_checkout.get(),
+                    self.var_roomtype.get(),
+                    self.var_roomvaliable.get(),
+                    self.var_meal.get(),
+                    self.var_no_of_days.get(),
+                    self.var__paidtax.get(),
+                    self.var_actualtotal.get(),
+                    self.var_total.get(),
+                    self.var_contact.get()
+                ))
+
+            conn.commit()
+            self.fetch_data()
+            conn.close()
+            messagebox.showinfo("Success", "Customer has been updated")
+
+            self.root.focus_force()
 
     def delete_room(self):
         if self.var_contact.get() == "":
@@ -310,6 +309,7 @@ class RoomBooking:
             except Exception as e:
                 messagebox.showerror("Error", f"Unexpected error: {e}")
         self.root.focus_force()
+
 
     def calculate_total(self):
         try:
