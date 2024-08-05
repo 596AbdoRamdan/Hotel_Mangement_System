@@ -21,14 +21,15 @@ root.resizable(False,False)
 
 
 img_original = Image.open("hotel2.jpg")
-image_tk = ImageTk.PhotoImage(img_original)
+new_image = img_original.resize((1550, 800))
+new_image.save('hotel2.jpg')
+image_tk = ImageTk.PhotoImage(new_image)
 Label(root, image=image_tk, bg='white').place(y=0, x=0)
 
 
 ##### frame
-frame = Frame(root, width=375, height=320, bg="#aedea2")
-#frame = Frame(root, width=400, height=350, bg='#aedea2')
-frame.place(x=440, y=260)
+frame = Frame(root, width=420, height=350, bg="sienna")
+frame.place(x=580, y=350)
 
 
 ######functions
@@ -42,24 +43,23 @@ def login():
 
 ######login
 
-heading = Label(frame, text='Log in', fg='white', bg='#aedea2', font=font)
+heading = Label(frame, text='Log in', fg='white', bg='sienna', font=font)
 heading.place(x=150, y=20)
 
 ######username
-username = Label(frame, text="Username", bg='#aedea2', fg="white", font=('Microsoft YaHei UI Light', 15, 'bold'))
+username = Label(frame, text="Username", bg='sienna', fg="white", font=('Microsoft YaHei UI Light', 17, 'bold'))
 usernametxt = Entry(frame, font=('Microsoft YaHei UI Light', 11), border=1, width=25)
 username.place(x=20, y=110)
 usernametxt.place(x=150, y=115)
 
 #####password
-password = Label(frame, text="Password", font=('Microsoft YaHei UI Light', 15, 'bold'), bg='#aedea2', fg='white')
+password = Label(frame, text="Password", font=('Microsoft YaHei UI Light', 17, 'bold'), bg='sienna', fg='white')
 passwordtxt = Entry(frame, bg='white', show="*", font=('Microsoft YaHei UI Light', 11), border=1, width=25)
 password.place(x=20, y=170)
 passwordtxt.place(x=150, y=175)
 
 ######login button
-login_bt = Button(frame, text="login", font=('Microsoft YaHei UI Light', 15, 'bold'), width=12, bg='#62bf4b',
-                  fg='white', border=0, command=login)
+login_bt = Button(frame, text="login", font=('Microsoft YaHei UI Light', 17, 'bold'), width=12, bg='sienna',fg='white', border=0, command=login)
 login_bt.place(x=120, y=250)
 
 ######signup button
