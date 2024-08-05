@@ -67,9 +67,10 @@ class RoomBooking:
         # Room_Type
         roomType = Label(labelFrameleft, text="Room Type", font=('arial', 12, "bold"), padx=2, pady=6)
         roomType.grid(row=3, column=0, sticky=W)
-        combo_roomType = ttk.Combobox(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_roomtype,
+        combo_roomType = ttk.Combobox(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_roomtype, state="readonly",
                                       width=18)
         combo_roomType["value"] = ("Single", "Double", "Doublex")
+        combo_roomType.current(0)
         combo_roomType.grid(row=3, column=1)
 
         lbl_roomavailable = Label(labelFrameleft, text="Room Available", font=('arial', 12, "bold"), padx=2, pady=6)
@@ -236,11 +237,11 @@ class RoomBooking:
                 messagebox.showerror("Error", f"Error due to: {str(e)}")
 
     def fetch_data(self):
-        conn = sqlite3.connect("hotel.db")
+        conn = sqlite3.connect('hotel.db')
         cur = conn.cursor()
         cur.execute("SELECT * FROM room")
         rows = cur.fetchall()
-        if len(rows) != 0:
+        if len(rows) >= 0:
             self.room_table.delete(*self.room_table.get_children())
             for row in rows:
                 self.room_table.insert('', END, values=row)
@@ -302,8 +303,10 @@ class RoomBooking:
                 self.fetch_data()
                 conn.close()
                 messagebox.showinfo("Success", "Room deleted successfully")
+            except sqlite3.Error as e:
+                messagebox.showerror("Database Error", f"Error deleting room: {e}")
             except Exception as e:
-                messagebox.showerror("Error", f"Error due to: {str(e)}")
+                messagebox.showerror("Error", f"Unexpected error: {e}")
 
     def calculate_total(self):
         try:
