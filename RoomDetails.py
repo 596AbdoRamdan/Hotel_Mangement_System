@@ -40,7 +40,7 @@ class DetailsRoom:
         lbl_floor = Label(labelframeleft, text="Floor", font=("Arial", 12, "bold"), padx=2, pady=6)
         lbl_floor.grid(row=0, column=0, sticky=W, padx=20)
 
-        self.entry_floor = ttk.Combobox(labelframeleft, font=("Arial", 13, "bold"), width=18)
+        self.entry_floor = ttk.Combobox(labelframeleft, font=("Arial", 13, "bold"), width=18,state="readonly")
         self.entry_floor["value"] = ("1", "2", "3", "4", "5")
         self.entry_floor.grid(row=0, column=1, sticky=W)
 

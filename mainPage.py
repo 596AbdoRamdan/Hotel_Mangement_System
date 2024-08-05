@@ -60,7 +60,7 @@ class HotelMangementSystem:
                          ,command=self.roomDetails)
         rom_btn.grid(row=2, column=0, pady=1)
 
-        logout_btn = Button(btn_frame, text="LOGOUT",activeforeground="Gold",activebackground="black", font=("times new roman", 14, "bold"), bg="black", fg="Gold",
+        logout_btn = Button(btn_frame,command=self.logout, text="LOGOUT",activeforeground="Gold",activebackground="black", font=("times new roman", 14, "bold"), bg="black", fg="Gold",
                           width=22, cursor="hand2")
         logout_btn.grid(row=3, column=0, pady=1)
         #---------------------right side image------------------------------------
@@ -95,6 +95,9 @@ class HotelMangementSystem:
     def customer(self):
         self.new_window = Toplevel(self.root)
         self.app = Cust_Win(self.new_window)
+    def logout(self):
+        self.root.destroy()
+
 
 
 if __name__ == "__main__":

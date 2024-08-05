@@ -102,7 +102,7 @@ class RoomBooking:
 
         lbl_total = Label(labelFrameleft, text="Total Cost", font=('arial', 12, "bold"), padx=2, pady=6)
         lbl_total.grid(row=9, column=0, sticky=W)
-        entry_total = Entry(labelFrameleft, textvariable=self.var_total, font=('arial', 13, "bold"), width=20)
+        entry_total = Entry(labelFrameleft, textvariable=self.var_total,state="readonly", font=('arial', 13, "bold"), width=20)
         entry_total.grid(row=9, column=1, sticky=W)
 
         # Buttons
