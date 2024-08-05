@@ -86,7 +86,8 @@ class Cust_Win:
         # nationality
         lblNationality = Label(labelframeleft, font=("arial", 12, "bold"), text="Nationality:", padx=2, pady=6)
         lblNationality.grid(row=6, column=0, sticky=W)
-        self.txtNationality = ttk.Entry(labelframeleft, width=29, font=("arial", 13, "bold"))
+        self.txtNationality = ttk.Combobox(labelframeleft, font=("arial", 12, "bold"), width=27, state="readonly")
+        self.txtNationality["value"] = ("Egyptian","American", "British", "Canadian", "Australian", "Indian","other")
         self.txtNationality.grid(row=6, column=1)
 
         # id number
@@ -199,29 +200,40 @@ class Cust_Win:
         conn.commit()
         conn.close()
 
+    import sqlite3
+    from tkinter import messagebox
+
     def add_data(self):
-        if self.txtcname.get() == "":
+        if (self.enty_ref.get() == "" or self.txtcname.get() == "" or self.combo_gender.get() == "" or
+                self.txtPostCode.get() == "" or self.txtMobile.get() == "" or self.txtEmail.get() == "" or
+                self.txtNationality.get() == "" or self.txtIdNumber.get() == "" or self.txtAddress.get() == ""):
             messagebox.showerror("Error", "All fields are required")
+        elif not (
+                self.enty_ref.get().isdigit() and self.txtPostCode.get().isdigit() and self.txtIdNumber.get().isdigit()):
+            messagebox.showerror("Error", "Reference, Post Code, and ID Number must be integers")
         else:
-            conn = sqlite3.connect('hotel.db')
-            cur = conn.cursor()
-            cur.execute("INSERT INTO customer VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (
-                self.enty_ref.get(),
-                self.txtcname.get(),
-                self.combo_gender.get(),
-                self.txtPostCode.get(),
-                self.txtMobile.get(),
-                self.txtEmail.get(),
-                self.txtNationality.get(),
-                self.txtIdNumber.get(),
-                self.txtAddress.get()
-            ))
-            conn.commit()
-            self.fetch_data()
-            conn.close()
-            messagebox.showinfo("Success", "Customer has been added")
-            self.reset_data()
-            self.root.focus_force()
+            try:
+                conn = sqlite3.connect('hotel.db')
+                cur = conn.cursor()
+                cur.execute("INSERT INTO customer VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (
+                    self.enty_ref.get(),
+                    self.txtcname.get(),
+                    self.combo_gender.get(),
+                    self.txtPostCode.get(),
+                    self.txtMobile.get(),
+                    self.txtEmail.get(),
+                    self.txtNationality.get(),
+                    self.txtIdNumber.get(),
+                    self.txtAddress.get()
+                ))
+                conn.commit()
+                self.fetch_data()
+                conn.close()
+                messagebox.showinfo("Success", "Customer has been added")
+                self.reset_data()
+                self.root.focus_force()
+            except sqlite3.Error as e:
+                messagebox.showerror("Error", f"Database error: {str(e)}")
 
     def fetch_data(self):
         conn = sqlite3.connect('hotel.db')
@@ -239,15 +251,25 @@ class Cust_Win:
         cursor_row = self.Cust_Details_Table.focus()
         content = self.Cust_Details_Table.item(cursor_row)
         row = content['values']
-        self.enty_ref.set(row[0])
-        self.txtcname.set(row[1])
-        self.combo_gender.set(row[2])
-        self.txtPostCode.set(row[3])
-        self.txtMobile.set(row[4])
-        self.txtEmail.set(row[5])
-        self.txtNationality.set(row[6])
-        self.txtIdNumber.set(row[7])
-        self.txtAddress.set(row[8])
+
+        if row:
+            self.enty_ref.delete(0, END)
+            self.enty_ref.insert(END, row[0])
+            self.txtcname.delete(0, END)
+            self.txtcname.insert(END, row[1])
+            self.combo_gender.set(row[2])
+            self.txtPostCode.delete(0, END)
+            self.txtPostCode.insert(END, row[3])
+            self.txtMobile.delete(0, END)
+            self.txtMobile.insert(END, row[4])
+            self.txtEmail.delete(0, END)
+            self.txtEmail.insert(END, row[5])
+            self.txtNationality.delete(0, END)
+            self.txtNationality.insert(END, row[6])
+            self.txtIdNumber.delete(0, END)
+            self.txtIdNumber.insert(END, row[7])
+            self.txtAddress.delete(0, END)
+            self.txtAddress.insert(END, row[8])
 
     def update_data(self):
         if self.enty_ref.get() == "":
