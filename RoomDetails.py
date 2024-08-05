@@ -137,6 +137,7 @@ class DetailsRoom:
                 self.reset_fields()
             except sqlite3.IntegrityError:
                 messagebox.showerror("Error", "Room number already exists")
+        self.root.focus_force()
 
     def fetch_data(self):
         self.cursor.execute("SELECT * FROM room_details")
@@ -151,6 +152,7 @@ class DetailsRoom:
         self.entry_floor.set("")
         self.entry_RoomNo.delete(0, END)
         self.entry_Roomtype.delete(0, END)
+        self.root.focus_force()
 
     def get_cursor(self, event):
         cursor_row = self.room_table.focus()
@@ -167,13 +169,22 @@ class DetailsRoom:
             selected_item = self.room_table.selection()[0]
             values = self.room_table.item(selected_item, 'values')
             roomno = values[1]
-            self.cursor.execute("DELETE FROM room_details WHERE roomno = ?", (roomno,))
-            self.conn.commit()
+
+            conn = sqlite3.connect("hotel.db")
+            cur = conn.cursor()
+            cur.execute("DELETE FROM room_details WHERE roomno = ?", (roomno,))
+            conn.commit()
+            conn.close()
+
+            # Force UI refresh or repopulate table
+            self.room_table.delete(*self.room_table.get_children())
             self.fetch_data()
             self.reset_fields()
+
             messagebox.showinfo("Success", "Room deleted successfully")
         except IndexError:
             messagebox.showerror("Error", "Please select a room to delete")
+        self.root.focus_force()
 
     def update_data(self):
         floor = self.entry_floor.get()
@@ -198,6 +209,7 @@ class DetailsRoom:
                 self.reset_fields()
             except IndexError:
                 messagebox.showerror("Error", "Please select a room to update")
+        self.root.focus_force()
 
 
 if __name__ == "__main__":
