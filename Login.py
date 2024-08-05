@@ -9,6 +9,21 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from PIL import Image, ImageTk
+import sqlite3
+db = sqlite3.connect('hotel.db')
+cr = db.cursor()
+#create the tables and fields
+cr.execute("CREATE TABLE if not exists users (user_id INTEGER, name TEXT, pass password)")
+
+#insert data to tables
+cr.execute("insert into users (user_id , name ,pass) values(1, 'Yomna', 'Yo123')")
+cr.execute("insert into users (user_id , name ,pass) values(2, 'Yasmine', 'Ya456')")
+cr.execute("insert into users (user_id , name ,pass) values(3, 'Ramadan', 'Ra789')")
+
+#save data that we add
+db.commit()
+#close database
+db.close()
 
 font = ('Microsoft YaHei UI Light', 23, 'bold')
 root = Tk()
