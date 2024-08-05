@@ -1,7 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from RoomBookin import RoomBooking
-from RoomDetails import details_room
+from RoomDetails import DetailsRoom
 from customer import Cust_Win
 
 class HotelMangementSystem:
@@ -91,7 +91,7 @@ class HotelMangementSystem:
 
     def roomDetails(self):
         self.new_window = Toplevel(self.root)
-        self.app = details_room(self.new_window)
+        self.app = DetailsRoom(self.new_window)
     def customer(self):
         self.new_window = Toplevel(self.root)
         self.app = Cust_Win(self.new_window)
