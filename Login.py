@@ -9,6 +9,8 @@ from mainPage import HotelMangementSystem
 
 class LoginPage():
     def __init__(self, root):
+        icon = PhotoImage(file=r"images/hotel.png")
+        root.iconphoto(True, icon)
         self.root = root
         self.root.title('Login')
         self.root.geometry("1550x800+0+0")
