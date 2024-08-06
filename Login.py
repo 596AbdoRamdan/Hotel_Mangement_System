@@ -55,14 +55,15 @@ class LoginPage():
         cr = db.cursor()
         cr.execute("CREATE TABLE if not exists users (user_id INTEGER, name TEXT, pass TEXT)")
 
-        # users_data = [
-        #     (1, 'Yomna', 'Yo123'),
-        #     (2, 'Yasmine', 'Ya456'),
-        #     (3, 'Ramadan', 'Ra789'),
-        #     (4, 'Bebo', 'Be3094')
-        # ]
-        # for user in users_data:
-        #     cr.execute("INSERT OR IGNORE INTO users (user_id, name, pass) VALUES (?, ?, ?)", user)
+        users_data = [
+            # (1, 'Yomna', 'Yo123'),
+            # (2, 'Yasmine', 'Ya456'),
+            # (3, 'Ramadan', 'Ra789'),
+            # (4, 'Bebo', 'Be3094')
+            # (5, 'wafdy', '1234')
+        ]
+        for user in users_data:
+            cr.execute("INSERT OR IGNORE INTO users (user_id, name, pass) VALUES (?, ?, ?)", user)
 
         db.commit()
         db.close()
