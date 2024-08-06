@@ -160,9 +160,10 @@ class Cust_Win:
 
         self.Cust_Details_Table.pack(fill=BOTH, expand=1)
         self.Cust_Details_Table.bind("<ButtonRelease-1>", self.get_cursor)
-        self.fetch_data()
+
 
         self.create_table()
+        self.fetch_data()
 
     def create_table(self):
         conn = sqlite3.connect('hotel.db')
