@@ -81,8 +81,15 @@ class RoomBooking:
 
         lbl_meal = Label(labelFrameleft, text="Meal", font=('arial', 12, "bold"), padx=2, pady=6)
         lbl_meal.grid(row=5, column=0, sticky=W)
-        entry_meal = Entry(labelFrameleft, textvariable=self.var_meal, font=('arial', 13, "bold"), width=20)
-        entry_meal.grid(row=5, column=1, sticky=W)
+        # entry_meal = Entry(labelFrameleft, textvariable=self.var_meal, font=('arial', 13, "bold"), width=20)
+        # entry_meal.grid(row=5, column=1, sticky=W)
+        combo_meal = ttk.Combobox(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_meal,
+                                      state="readonly",
+                                      width=18)
+        combo_meal["value"] = ("BreakFast",  "Launch","Dinner","BreakFast and Launch","BreakFast and Dinner","Launch and Dinner","All Meals")
+        combo_meal.current(0)
+        combo_meal.grid(row=5, column=1)
+
 
         lbl_no_of_days = Label(labelFrameleft, text="No. of Days", font=('arial', 12, "bold"), padx=2, pady=6)
         lbl_no_of_days.grid(row=6, column=0, sticky=W)
@@ -121,6 +128,8 @@ class RoomBooking:
         btnBill = Button(labelFrameleft, text="Bill", command=self.calculate_total, font=('arial', 11, 'bold'),
                          bg='black', fg='gold', width=9)
         btnBill.grid(row=11, column=1, pady=10)
+
+
         # ---------------right side image---------------
 
         img3 = Image.open(r"images/room.jpeg ")

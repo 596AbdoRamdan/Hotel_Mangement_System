@@ -106,7 +106,7 @@ class Cust_Win:
 
         self.search_var = StringVar()
         self.search_var = ttk.Combobox(Table_Frame,textvariable=self.search_var, font=("arial", 12, "bold"), width=24, state="readonly")
-        self.search_var["value"] = ("Mobile", "Ref")
+        self.search_var["value"] = ("Ref","Mobile",'idnumber')
         self.search_var.current(0)
         self.search_var.grid(row=0, column=1, padx=2)
 
