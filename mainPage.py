@@ -39,10 +39,10 @@ class HotelMangementSystem:
 
 
         #----------------------menu--------------------
-        lbl_menu = Label(main_frame, text="  MENU", font=("times new roman", 20, "bold"), bg="black",
+        lbl_menu = Label(main_frame, text="MENU", font=("times new roman", 20, "bold"), bg="black",
                           fg="Gold", bd=4,padx=40
                           , relief=RIDGE)
-        lbl_menu.place(x=0, y=0, width=230)
+        lbl_menu.place(x=0, y=0, width=240)
         # ----------------------btn_frame--------------------
         btn_frame = Label(main_frame,bg="black", bd=4 , relief=RIDGE)
         btn_frame.place(x=0, y=35, width=228,height=190)
@@ -88,13 +88,14 @@ class HotelMangementSystem:
     def roombooking(self):
         self.new_window = Toplevel(self.root)
         self.app = RoomBooking(self.new_window)
-
     def roomDetails(self):
         self.new_window = Toplevel(self.root)
-        self.app = DetailsRoom(self.new_window)
+        self.app2 = DetailsRoom(self.new_window)
+
     def customer(self):
         self.new_window = Toplevel(self.root)
-        self.app = Cust_Win(self.new_window)
+        self.app3 = Cust_Win(self.new_window)
+
     def logout(self):
         self.root.destroy()
 
@@ -105,5 +106,5 @@ if __name__ == "__main__":
     obj = HotelMangementSystem(root)
 
     icon = PhotoImage(file=r"images/hotel.png")
-    root.iconphoto(False, icon)
+    root.iconphoto(True, icon)
     root.mainloop()

@@ -23,6 +23,7 @@ class Cust_Win:
         labelframeleft.place(x=5, y=50, width=425, height=490)
 
         # --------------------labels and entrys--------
+
         # custref
         lbl_cust_ref = Label(labelframeleft, text="Customer ref", font=("arial", 12, "bold"), padx=2, pady=6)
         lbl_cust_ref.grid(row=0, column=0, sticky=W)
@@ -39,7 +40,8 @@ class Cust_Win:
         label_gender = Label(labelframeleft, font=("arial", 12, "bold"), text="Gender:", padx=2, pady=6)
         label_gender.grid(row=2, column=0, sticky=W)
         self.combo_gender = ttk.Combobox(labelframeleft, font=("arial", 12, "bold"), width=27, state="readonly")
-        self.combo_gender["value"] = ("Male", "Female", "Other")
+        self.combo_gender["value"] = ("Male", "Female")
+        self.combo_gender.current(0)
         self.combo_gender.grid(row=2, column=1)
 
         # post code
@@ -63,8 +65,9 @@ class Cust_Win:
         # nationality
         lblNationality = Label(labelframeleft, font=("arial", 12, "bold"), text="Nationality:", padx=2, pady=6)
         lblNationality.grid(row=6, column=0, sticky=W)
-        self.txtNationality = ttk.Combobox(labelframeleft, font=("arial", 12, "bold"), width=27)
+        self.txtNationality = ttk.Combobox(labelframeleft, font=("arial", 12, "bold"), width=27,state="readonly")
         self.txtNationality["value"] = ("Egyptian","American", "British", "Canadian", "Australian", "Indian","other")
+
         self.txtNationality.grid(row=6, column=1)
 
         # id number
@@ -80,8 +83,8 @@ class Cust_Win:
         self.txtAddress.grid(row=8, column=1)
 
         # ---------------------buttons-----------------
-        btn_frame = Frame(labelframeleft, bd=2, relief=RIDGE)
-        btn_frame.place(x=0, y=400, width=412, height=40)
+        btn_frame = Frame(labelframeleft)
+        btn_frame.place(x=20, y=400, width=400, height=40)
 
         btnAdd = Button(btn_frame, text="Add", command=self.add_data, font=("arial", 11, "bold"), bg="black", fg="gold", width=9)
         btnAdd.grid(row=0, column=0, padx=1)
@@ -103,7 +106,7 @@ class Cust_Win:
         lblSearchBy.grid(row=0, column=0, sticky=W, padx=2)
 
         self.search_var = StringVar()
-        self.search_var = ttk.Combobox(Table_Frame, textvariable=self.search_var, font=("arial", 12, "bold"), width=24, state="readonly")
+        self.search_var = ttk.Combobox(Table_Frame,textvariable=self.search_var, font=("arial", 12, "bold"), width=24, state="readonly")
         self.search_var["value"] = ("Mobile", "Ref")
         self.search_var.current(0)
         self.search_var.grid(row=0, column=1, padx=2)
@@ -125,7 +128,8 @@ class Cust_Win:
         scroll_x = ttk.Scrollbar(details_table, orient=HORIZONTAL)
         scroll_y = ttk.Scrollbar(details_table, orient=VERTICAL)
 
-        self.Cust_Details_Table = ttk.Treeview(details_table, columns=("ref", "name", "gender", "post", "mobile", "email", "nationality", "idnumber", "address"), xscrollcommand=scroll_x.set, yscrollcommand=scroll_y.set)
+        self.Cust_Details_Table = ttk.Treeview(details_table, columns=("ref", "name", "gender", "post", "mobile", "email", "nationality", "idnumber", "address")
+                                               , xscrollcommand=scroll_x.set, yscrollcommand=scroll_y.set)
 
         scroll_x.pack(side=BOTTOM, fill=X)
         scroll_y.pack(side=RIGHT, fill=Y)
@@ -150,7 +154,7 @@ class Cust_Win:
         self.Cust_Details_Table.column("gender", width=100)
         self.Cust_Details_Table.column("post", width=100)
         self.Cust_Details_Table.column("mobile", width=100)
-        self.Cust_Details_Table.column("email", width=100)
+        self.Cust_Details_Table.column("email", width=150)
         self.Cust_Details_Table.column("nationality", width=100)
         self.Cust_Details_Table.column("idnumber", width=100)
         self.Cust_Details_Table.column("address", width=100)
@@ -165,14 +169,14 @@ class Cust_Win:
         conn = sqlite3.connect('hotel.db')
         cur = conn.cursor()
         cur.execute('''CREATE TABLE IF NOT EXISTS customer (
-                        ref INTEGER PRIMARY KEY,
+                        ref INTEGER ,
                         name TEXT,
                         gender TEXT,
                         post TEXT,
                         mobile TEXT,
                         email TEXT,
                         nationality TEXT,
-                        idnumber TEXT,
+                        idnumber Integer,
                         address TEXT)''')
         conn.commit()
         conn.close()
@@ -241,8 +245,9 @@ class Cust_Win:
             self.txtMobile.insert(END, row[4])
             self.txtEmail.delete(0, END)
             self.txtEmail.insert(END, row[5])
-            self.txtNationality.delete(0, END)
-            self.txtNationality.insert(END, row[6])
+            # self.txtNationality.delete(0, END)
+            # self.txtNationality.insert(END, row[6])
+            self.txtNationality.set(row[6])
             self.txtIdNumber.delete(0, END)
             self.txtIdNumber.insert(END, row[7])
             self.txtAddress.delete(0, END)
@@ -291,7 +296,7 @@ class Cust_Win:
         self.txtPostCode.delete(0, END)
         self.txtMobile.delete(0, END)
         self.txtEmail.delete(0, END)
-        self.txtNationality.delete(0, END)
+        self.txtNationality.set("")
         self.txtIdNumber.delete(0, END)
         self.txtAddress.delete(0, END)
         self.root.focus_force()
