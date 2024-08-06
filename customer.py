@@ -149,7 +149,7 @@ class Cust_Win:
         self.Cust_Details_Table["show"] = "headings"
 
         self.Cust_Details_Table.column("ref", width=100)
-        self.Cust_Details_Table.column("name", width=100)
+        self.Cust_Details_Table.column("name", width=200)
         self.Cust_Details_Table.column("gender", width=100)
         self.Cust_Details_Table.column("post", width=100)
         self.Cust_Details_Table.column("mobile", width=100)

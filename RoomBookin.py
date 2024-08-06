@@ -50,9 +50,9 @@ class RoomBooking:
         entry_contact = Entry(labelFrameleft, textvariable=self.var_contact, font=('arial', 13, "bold"), width=20)
         entry_contact.grid(row=0, column=1, sticky=W)
         # -------------fetch Data Button---------------
-        btnAdd = Button(labelFrameleft, text="Fetch Data", command=self.fetchbtn, font=("Arial", 8, "bold"), bg='black',
+        btn_fetch= Button(labelFrameleft, text="Fetch Data", command=self.fetchbtn, font=("Arial", 8, "bold"), bg='black',
                         fg='gold', width=8, height=1)
-        btnAdd.place(x=340, y=4)
+        btn_fetch.place(x=340, y=4)
 
         lbl_checkin = Label(labelFrameleft, text="Check-in Date", font=('arial', 12, "bold"), padx=2, pady=6)
         lbl_checkin.grid(row=1, column=0, sticky=W)
@@ -70,7 +70,6 @@ class RoomBooking:
         combo_roomType = ttk.Combobox(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_roomtype, state="readonly",
                                       width=18)
         combo_roomType["value"] = ("Single", "Double", "Doublex")
-        combo_roomType.current(0)
         combo_roomType.grid(row=3, column=1)
 
         lbl_roomavailable = Label(labelFrameleft, text="Room Available", font=('arial', 12, "bold"), padx=2, pady=6)
@@ -87,7 +86,6 @@ class RoomBooking:
                                       state="readonly",
                                       width=18)
         combo_meal["value"] = ("BreakFast",  "Launch","Dinner","BreakFast and Launch","BreakFast and Dinner","Launch and Dinner","All Meals")
-        combo_meal.current(0)
         combo_meal.grid(row=5, column=1)
 
 
@@ -187,7 +185,7 @@ class RoomBooking:
         self.room_table.column("contact", width=100)
         self.room_table.column("checkin", width=100)
         self.room_table.column("checkout", width=100)
-        self.room_table.column("roomtype", width=100)
+        self.room_table.column("roomtype", width=200)
         self.room_table.column("roomvaliable", width=100)
         self.room_table.column("meal", width=100)
         self.room_table.column("no of days", width=100)
