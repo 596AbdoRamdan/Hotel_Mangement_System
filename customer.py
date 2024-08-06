@@ -41,7 +41,6 @@ class Cust_Win:
         label_gender.grid(row=2, column=0, sticky=W)
         self.combo_gender = ttk.Combobox(labelframeleft, font=("arial", 12, "bold"), width=27, state="readonly")
         self.combo_gender["value"] = ("Male", "Female")
-        self.combo_gender.current(0)
         self.combo_gender.grid(row=2, column=1)
 
         # post code
@@ -190,7 +189,7 @@ class Cust_Win:
                 self.txtNationality.get() == "" or self.txtIdNumber.get() == "" or self.txtAddress.get() == ""):
             messagebox.showerror("Error", "All fields are required")
         elif not (
-                self.enty_ref.get().isdigit() and self.txtPostCode.get().isdigit() and self.txtIdNumber.get().isdigit()):
+                self.enty_ref.get().isdigit() and self.txtIdNumber.get().isdigit()):
             messagebox.showerror("Error", "Reference, Post Code, and ID Number must be integers")
         else:
             try:
@@ -212,9 +211,10 @@ class Cust_Win:
                 conn.close()
                 messagebox.showinfo("Success", "Customer has been added")
                 self.reset_data()
-                self.root.focus_force()
+
             except sqlite3.Error as e:
                 messagebox.showerror("Error", f"Database error: {str(e)}")
+        self.root.focus_force()
 
     def fetch_data(self):
         conn = sqlite3.connect('hotel.db')
@@ -275,7 +275,7 @@ class Cust_Win:
             conn.close()
             messagebox.showinfo("Success", "Customer has been updated")
             self.reset_data()
-            self.root.focus_force()
+        self.root.focus_force()
 
     def delete_data(self):
         conn = sqlite3.connect('hotel.db')

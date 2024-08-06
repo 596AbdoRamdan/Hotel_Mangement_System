@@ -55,7 +55,8 @@ class DetailsRoom:
         lbl_Roomtype = Label(labelframeleft, text="Room type", font=("Arial", 12, "bold"), padx=2, pady=6)
         lbl_Roomtype.grid(row=2, column=0, sticky=W, padx=20)
 
-        self.entry_Roomtype = ttk.Entry(labelframeleft, font=("Arial", 13, "bold"), width=20)
+        self.entry_Roomtype = ttk.Combobox(labelframeleft, font=("Arial", 13, "bold"), width=18, state="readonly")
+        self.entry_Roomtype["value"] = ("Single","Double","Doublex")
         self.entry_Roomtype.grid(row=2, column=1, sticky=W)
 
         # Button frame
@@ -151,7 +152,7 @@ class DetailsRoom:
     def reset_fields(self):
         self.entry_floor.set("")
         self.entry_RoomNo.delete(0, END)
-        self.entry_Roomtype.delete(0, END)
+        self.entry_Roomtype.set("")
         self.root.focus_force()
 
     def get_cursor(self, event):
@@ -161,8 +162,7 @@ class DetailsRoom:
         self.entry_floor.set(row[0])
         self.entry_RoomNo.delete(0, END)
         self.entry_RoomNo.insert(END, row[1])
-        self.entry_Roomtype.delete(0, END)
-        self.entry_Roomtype.insert(END, row[2])
+        self.entry_Roomtype.set(row[2])
 
     def delete_data(self):
         try:

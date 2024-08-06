@@ -88,6 +88,7 @@ class HotelMangementSystem:
     def roombooking(self):
         self.new_window = Toplevel(self.root)
         self.app = RoomBooking(self.new_window)
+
     def roomDetails(self):
         self.new_window = Toplevel(self.root)
         self.app2 = DetailsRoom(self.new_window)
