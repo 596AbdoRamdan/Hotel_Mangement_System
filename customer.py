@@ -222,7 +222,7 @@ class Cust_Win:
         cur = conn.cursor()
         cur.execute("SELECT * FROM customer")
         rows = cur.fetchall()
-        if len(rows) != 0:
+        if len(rows) >= 0:
             self.Cust_Details_Table.delete(*self.Cust_Details_Table.get_children())
             for row in rows:
                 self.Cust_Details_Table.insert('', END, values=row)
@@ -279,15 +279,25 @@ class Cust_Win:
         self.root.focus_force()
 
     def delete_data(self):
-        conn = sqlite3.connect('hotel.db')
-        cur = conn.cursor()
-        cur.execute("DELETE FROM customer WHERE ref=?", (self.enty_ref.get(),))
-        conn.commit()
-        conn.close()
-        self.fetch_data()
-        messagebox.showinfo("Success", "Customer has been deleted")
-        self.reset_data()
+        if self.enty_ref.get() == "":
+            messagebox.showerror("Error", "Please select a room to delete")
+        else:
+            try:
+                conn = sqlite3.connect("hotel.db")
+                cur = conn.cursor()
+                cur.execute("DELETE FROM customer WHERE ref=?", (self.enty_ref.get(),))
+                conn.commit()
+                conn.close()
+                self.fetch_data()
+                messagebox.showinfo("Success", "Room deleted successfully")
+                self.reset_data()
+            except sqlite3.Error as e:
+                messagebox.showerror("Database Error", f"Error deleting room: {e}")
+            except Exception as e:
+                messagebox.showerror("Error", f"Unexpected error: {e}")
         self.root.focus_force()
+
+
 
 
     def reset_data(self):
@@ -315,9 +325,10 @@ class Cust_Win:
             query = f"SELECT * FROM customer WHERE {search_by} LIKE ?"
             cur.execute(query, ('%' + search_text + '%',))
             rows = cur.fetchall()
+            self.txt_search.set("")
             if len(rows) == 0:
                 # Clear table and show an error message
-                 self.Cust_Details_Table.delete(*self.Cust_Details_Table.get_children())
+
                  messagebox.showerror("No Results", f"No records found for {search_by} '{search_text}'.")
             else:
                 # Update table with results
@@ -326,6 +337,8 @@ class Cust_Win:
                     self.Cust_Details_Table.insert('', END, values=row)
         else:
                 messagebox.showwarning("Input Error", "Please enter search criteria.")
+        self.root.focus_force()
+
 
         conn.close()
 

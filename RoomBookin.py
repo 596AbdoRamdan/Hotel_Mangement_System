@@ -70,7 +70,7 @@ class RoomBooking:
         combo_roomType = ttk.Combobox(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_roomtype, state="readonly",
                                       width=18)
         combo_roomType["value"] = ("Single", "Double", "Doublex")
-        combo_roomType.grid(row=3, column=1)
+        combo_roomType.grid(row=3, column=1,sticky=W)
 
         lbl_roomavailable = Label(labelFrameleft, text="Room Available", font=('arial', 12, "bold"), padx=2, pady=6)
         lbl_roomavailable.grid(row=4, column=0, sticky=W)
@@ -80,11 +80,9 @@ class RoomBooking:
 
         lbl_meal = Label(labelFrameleft, text="Meal", font=('arial', 12, "bold"), padx=2, pady=6)
         lbl_meal.grid(row=5, column=0, sticky=W)
-        # entry_meal = Entry(labelFrameleft, textvariable=self.var_meal, font=('arial', 13, "bold"), width=20)
-        # entry_meal.grid(row=5, column=1, sticky=W)
         combo_meal = ttk.Combobox(labelFrameleft, font=('arial', 13, "bold"), textvariable=self.var_meal,
                                       state="readonly",
-                                      width=18)
+                                      width=20)
         combo_meal["value"] = ("BreakFast",  "Launch","Dinner","BreakFast and Launch","BreakFast and Dinner","Launch and Dinner","All Meals")
         combo_meal.grid(row=5, column=1)
 
@@ -311,6 +309,7 @@ class RoomBooking:
                 self.fetch_data()
                 conn.close()
                 messagebox.showinfo("Success", "Room deleted successfully")
+                self.reset_data()
             except sqlite3.Error as e:
                 messagebox.showerror("Database Error", f"Error deleting room: {e}")
             except Exception as e:
@@ -389,10 +388,9 @@ class RoomBooking:
             query = f"SELECT * FROM room WHERE {search_by} LIKE ?"
             cur.execute(query, ('%' + search_text + '%',))
             rows = cur.fetchall()
-
+            self.txt_search.set("")
             if len(rows) == 0:
                 # Clear table and show an error message
-                self.room_table.delete(*self.room_table.get_children())
                 messagebox.showerror("No Results", f"No records found for {search_by} '{search_text}'.")
             else:
                 # Update table with results
@@ -401,6 +399,8 @@ class RoomBooking:
                     self.room_table.insert('', END, values=row)
         else:
             messagebox.showwarning("Input Error", "Please enter search criteria.")
+        self.root.focus_force()
+
 
 
         conn.close()
@@ -416,6 +416,17 @@ class RoomBooking:
                 self.room_table.insert('', END, values=row)
         conn.close()
 
+    def reset_data(self):
+        self.var_contact.set("")
+        self.var_checkin.set("")
+        self.var_checkout.set("")
+        self.var_roomtype.set("")
+        self.var_roomvaliable.set("")
+        self.var_meal.set("")
+        self.var_no_of_days.set("")
+        self.var__paidtax.set("")
+        self.var_actualtotal.set("")
+        self.var_total.set("")
 
 if __name__ == "__main__":
     root = Tk()

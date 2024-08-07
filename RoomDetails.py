@@ -101,7 +101,8 @@ class DetailsRoom:
         self.search_var.current(0)
         self.search_var.grid(row=0, column=1, padx=2)
 
-        self.txtSearch = ttk.Entry(Table_Frame, width=24, font=("arial", 13, "bold"))
+        self.txt_Search=StringVar()
+        self.txtSearch = ttk.Entry(Table_Frame,textvariable=self.txt_Search,width=24, font=("arial", 13, "bold"))
         self.txtSearch.grid(row=0, column=2, padx=2)
 
         btnSearch = Button(Table_Frame, text="Search", command=self.search_data, font=("arial", 11, "bold"), bg="black", fg="gold",
@@ -184,8 +185,10 @@ class DetailsRoom:
             query = f"SELECT * FROM room_details WHERE {search_by} LIKE ?"
             self.cursor.execute(query, ('%' + search_text + '%',))
             rows = self.cursor.fetchall()
+
+            self.txt_Search.set("")
+
             if len(rows) == 0:
-                self.room_table.delete(*self.room_table.get_children())
                 messagebox.showerror("No Results", f"No records found for {search_by} '{search_text}'.")
             else:
                 self.room_table.delete(*self.room_table.get_children())
@@ -193,11 +196,12 @@ class DetailsRoom:
                     self.room_table.insert('', END, values=row[1:])
         else:
             messagebox.showwarning("Input Error", "Please enter search criteria.")
+        self.root.focus_force()
 
     def fetch_data(self):
         self.cursor.execute("SELECT * FROM room_details")
         rows = self.cursor.fetchall()
-        if len(rows) != 0:
+        if len(rows) >= 0:
             self.room_table.delete(*self.room_table.get_children())
             for row in rows:
                 self.room_table.insert("", END, values=(row[1], row[2], row[3], row[4]))
